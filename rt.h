@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/13 14:20:53 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/13 14:25:04 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct			s_scene
 
 int						ft_usage(void);
 void					create_windows(t_param_window *p);
-void 					draw(t_param_window *p);
+void 					draw(t_param_window *p, t_scene *scene);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
 
