@@ -3,31 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 17:41:15 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/06 12:54:50 by mdirect           #+#    #+#             */
+/*   Updated: 2019/10/10 12:10:26 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*res;
-	size_t	s1_len;
-	size_t	s2_len;
+	char	*new;
+	size_t	i;
+	size_t	j;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	if (s1 == NULL || s2 == NULL || (s1_len + s2_len + 1) == 0)
+	if (ft_strlen(s1) + ft_strlen(s2) == SIZE_MAX)
 		return (NULL);
-	res = (char*)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (res == NULL)
-		return (res);
-	*(res + s1_len + s2_len + 1) = '\0';
-	ft_strcpy(res, s1);
-	ft_strcat(res, s2);
-	return (res);
+	if (!s1 || !s2 || !(new = (char*)malloc(sizeof(char) *
+			(ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		new[i + j] = s2[j];
+		j++;
+	}
+	new[i + j] = '\0';
+	return (new);
 }

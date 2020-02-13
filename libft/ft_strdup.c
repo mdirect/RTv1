@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/07 19:39:12 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/04 13:25:18 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/28 22:16:50 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
 #include "libft.h"
 
-char	*ft_strdup(const char *str)
+char	*ft_strdup(const char *s1)
 {
-	char	*res;
-	size_t	len;
+	size_t	n;
+	char	*new;
 
-	len = ft_strlen(str);
-	res = ft_strnew(len);
-	if (res == NULL)
+	n = ft_strlen(s1);
+	if (n == SIZE_MAX)
 		return (NULL);
-	while (len)
+	if (!(new = (char*)malloc(sizeof(char) * (n + 1))))
+		return (NULL);
+	n = 0;
+	while (s1[n])
 	{
-		*(res + len) = *(str + len);
-		len--;
+		new[n] = s1[n];
+		n++;
 	}
-	*res = *str;
-	return (res);
+	new[n] = '\0';
+	return (new);
 }

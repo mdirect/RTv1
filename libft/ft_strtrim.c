@@ -3,28 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 17:49:33 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/06 13:51:50 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/28 22:16:50 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
 char	*ft_strtrim(char const *s)
 {
-	size_t	len;
-	char	*res;
+	char	*new;
+	size_t	n;
+	size_t	i;
+	size_t	k;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	while (ft_strchr(" \t\n", (int)*s) && *s)
-		s++;
-	len = ft_strlen(s);
-	while (ft_strchr(" \t\n", (int)*(s + len)) && *s)
-		len--;
-	res = ft_strsub(s, 0, len + 1);
-	return (res);
+	n = ft_strlen(s) - 1;
+	while ((s[n] == ' ' || s[n] == '\n' || s[n] == '\t') && n)
+		n--;
+	i = 0;
+	while ((s[i] == ' ' || s[i] == '\n' || s[i] == '\t') && i < n)
+		i++;
+	if (!(new = (char*)malloc(sizeof(char) * (n - i + 2))))
+		return (NULL);
+	k = 0;
+	if (i < n)
+		while (k < n - i + 1)
+		{
+			new[k] = s[k + i];
+			k++;
+		}
+	new[k] = '\0';
+	return (new);
 }

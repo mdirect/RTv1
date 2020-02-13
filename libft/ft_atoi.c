@@ -3,38 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/11 19:36:17 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/12 18:58:58 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/17 19:45:23 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int		ft_atoi(const char *str)
 {
-	unsigned long	res;
-	int				flag;
+	unsigned long long	n;
+	int					sign;
 
-	res = 0;
-	flag = 1;
-	while (ft_strchr(" \n\t\v\f\r", *str) && *str)
+	n = 0;
+	sign = 1;
+	while (*str && (((*str) >= 9 && (*str) <= 13) || *str == 32))
 		str++;
-	if (*str == '-' && (*(str + 1) > '9' || *(str + 1) < '0'))
-		return (0);
-	if (*str == '-')
-		flag = -1;
 	if (*str == '+' || *str == '-')
-		str++;
-	while (*str >= '0' && *str <= '9')
 	{
-		res = 10 * res + (*str - '0');
-		if ((res > 9223372036854775807 && flag == 1))
-			return (-1);
-		if (res > (unsigned long)(9223372036854775807 - flag) && flag == -1)
-			return (0);
+		sign = (*str == '-') ? -1 : 1;
 		str++;
 	}
-	return ((int)res * flag);
+	while (ft_isdigit(*str))
+	{
+		n = n * 10 + (*str - '0');
+		str++;
+	}
+	if (n > (long long)9223372036854775807 && sign == 1)
+		return (-1);
+	if (n > (long long)9223372036854775807 && sign == -1)
+		return (0);
+	return ((int)(n * sign));
 }

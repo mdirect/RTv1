@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/10 14:14:43 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/11 13:00:08 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/28 22:16:50 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,21 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	i;
-	size_t	dst_len;
-	size_t	src_len;
+	size_t i;
+	size_t n;
 
-	dst_len = ft_strlen(dst);
-	src_len = ft_strlen(src);
+	n = ft_strlen(dst);
+	if (n > size)
+		return (size + ft_strlen(src));
 	i = 0;
-	if (dst_len >= size)
-		return (size + src_len);
-	while (dst_len + i < size && *(src + i))
+	if (size > n)
 	{
-		*(dst + dst_len + i) = *(src + i);
-		i++;
+		while (src[i] && (n + i) < size - 1)
+		{
+			dst[n + i] = src[i];
+			i++;
+		}
+		dst[n + i] = '\0';
 	}
-	if (size == dst_len + i)
-		i--;
-	*(dst + dst_len + i) = '\0';
-	return (dst_len + src_len);
+	return (n + ft_strlen(src));
 }

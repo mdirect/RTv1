@@ -3,56 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/12 21:52:09 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/07 09:50:20 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/28 22:16:50 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
-static	size_t	int_len(int n)
+char		*ft_itoa(int n)
 {
-	size_t	len;
+	char	*str;
+	int		len;
+	int		begin;
 
-	if (n == 0)
-		return (1);
-	len = 0;
-	while (n)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len);
-}
-
-char			*ft_itoa(int n)
-{
-	char	*s;
-	size_t	len;
-	int		flag;
-
-	len = int_len(n);
-	flag = 1;
-	if (n < 0)
-	{
-		len++;
-		flag = -1;
-	}
-	s = ft_strnew(len);
-	if (s == NULL)
+	len = ft_lenint(n);
+	if (!(str = ft_strnew(len)))
 		return (NULL);
-	if (n == 0)
-		*s = '0';
-	while (n)
+	begin = (n < 0) ? 1 : 0;
+	str[len] = '\0';
+	while (--len >= begin)
 	{
-		len--;
-		*(s + len) = (n % 10) * flag + '0';
-		n /= 10;
+		str[len] = (n < 0) ? (-1 * (n % 10) + '0') : ((n % 10) + '0');
+		n = n / 10;
 	}
-	if (flag == -1)
-		*s = '-';
-	return (s);
+	if (begin == 1)
+		str[0] = '-';
+	return (str);
 }

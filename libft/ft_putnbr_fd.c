@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/13 16:12:26 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/14 19:42:45 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/14 19:42:52 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,21 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	int	tmp;
-	int base;
-	int flag;
-
-	flag = 1;
-	if (n < 0)
+	if (n == -2147483648)
 	{
-		flag = -1;
+		ft_putstr_fd("-2147483648", fd);
+		return ;
+	}
+	else if (n < 0)
+	{
 		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(-1 * n, fd);
 	}
-	tmp = n;
-	base = 1;
-	while (tmp / 10)
+	else if (n <= 9)
+		ft_putchar_fd(n + 48, fd);
+	else
 	{
-		tmp /= 10;
-		base *= 10;
-	}
-	while (base)
-	{
-		ft_putchar_fd(flag * ((n / base) % 10) + '0', fd);
-		base /= 10;
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
 	}
 }

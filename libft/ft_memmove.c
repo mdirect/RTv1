@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/06 20:43:14 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/04 17:33:44 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/28 22:16:50 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-void	*ft_memmove(void *dst, void *src, size_t n)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	unsigned char	*tmp;
-	unsigned char	*res;
-	size_t			i;
+	size_t i;
 
-	if (dst == NULL && src == NULL)
+	if (!src && !dst)
 		return (dst);
-	i = 0;
-	tmp = (unsigned char*)src;
-	res = (unsigned char*)dst;
-	if (src < dst)
+	if (src > dst || (src + len) < dst)
 	{
-		while (n--)
-			*(res + n) = *(tmp + n);
+		i = -1;
+		while (++i < len)
+			((unsigned char*)dst)[i] = ((unsigned char *)src)[i];
 	}
 	else
 	{
-		while (i < n)
-		{
-			*(res + i) = *(tmp + i);
-			i++;
-		}
+		while (len--)
+			((unsigned char*)dst)[len] = ((unsigned char *)src)[len];
 	}
-	return (res);
+	return (dst);
 }

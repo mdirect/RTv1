@@ -3,29 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: epainter <epainter@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/10 12:58:00 by epainter          #+#    #+#             */
-/*   Updated: 2020/01/30 15:10:36 by mdirect          ###   ########.fr       */
+/*   Created: 2019/09/11 12:39:50 by mdirect           #+#    #+#             */
+/*   Updated: 2019/09/28 22:16:50 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncat(char *dst, const char *append, size_t n)
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	size_t len_dst;
-	size_t len_app;
+	size_t nn;
+	size_t i;
 
-	len_dst = ft_strlen(dst);
-	len_app = ft_strlen(append);
-	if (len_app < n)
-		ft_strncpy(&*(dst + len_dst), append, len_app);
-	else
-		ft_strncpy(&*(dst + len_dst), append, n);
-	if (n > len_app)
-		*(dst + len_app + len_dst) = '\0';
-	else
-		*(dst + n + len_dst) = '\0';
-	return (dst);
+	nn = ft_strlen(s1);
+	i = 0;
+	while (s2[i] && i < n)
+	{
+		s1[nn + i] = s2[i];
+		i++;
+	}
+	s1[nn + i] = '\0';
+	return (s1);
 }

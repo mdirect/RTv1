@@ -1,13 +1,20 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
 project(RTv1 C)
 
-find_package(Vulkan REQUIRED)
+set(CMAKE_C_STANDARD 11)
 
-set(CMAKE_C_STANDARD 99)
+include_directories(.)
+include_directories(minilibx_macos libft)
 
-include_directories(libft srcs glfw-3.3.2 glfw-3.3.2/include glfw-3.3.2/src)
+find_package(OpenCL REQUIRED)
 
-add_subdirectory(glfw-3.3.2)
+add_library(libmlx STATIC
+        minilibx_macos/mlx_shaders.c
+        minilibx_macos/mlx_new_window.m
+        minilibx_macos/mlx_init_loop.m
+        minilibx_macos/mlx_new_image.m
+        minilibx_macos/mlx_xpm.c
+        minilibx_macos/mlx_int_str_to_wordtab.c)
 
 add_library(libft STATIC
         libft/ft_atoi.c
@@ -18,12 +25,15 @@ add_library(libft STATIC
         libft/ft_isdigit.c
         libft/ft_isprint.c
         libft/ft_itoa.c
+        libft/ft_lenint.c
         libft/ft_lstadd.c
+        libft/ft_lstbackadd.c
         libft/ft_lstdel.c
         libft/ft_lstdelone.c
         libft/ft_lstiter.c
         libft/ft_lstmap.c
         libft/ft_lstnew.c
+        libft/ft_max.c
         libft/ft_memalloc.c
         libft/ft_memccpy.c
         libft/ft_memchr.c
@@ -32,6 +42,7 @@ add_library(libft STATIC
         libft/ft_memdel.c
         libft/ft_memmove.c
         libft/ft_memset.c
+        libft/ft_min.c
         libft/ft_putchar.c
         libft/ft_putchar_fd.c
         libft/ft_putendl.c
@@ -63,19 +74,20 @@ add_library(libft STATIC
         libft/ft_strnew.c
         libft/ft_strnstr.c
         libft/ft_strrchr.c
+        libft/ft_strrev.c
         libft/ft_strsplit.c
         libft/ft_strstr.c
         libft/ft_strsub.c
         libft/ft_strtrim.c
         libft/ft_tolower.c
         libft/ft_toupper.c
-        libft/libft.h
-        libft/ft_atoi_base.c
-        libft/percentage.c)
+        libft/get_next_line.c
+        libft/libft.h)
 
-add_executable(RTv1 srcs/main.c srcs/rtv1.h srcs/init/init.c srcs/init/init_window.c
-        srcs/glfw_loop.c srcs/init/init_vulkan.c srcs/init/vk_error.c
-        srcs/init/app_info_init.c srcs/init/gpu_props_init.c srcs/init/device_init.c
-        srcs/push_key.c)
+add_compile_options (-Wall -Werror -Wextra -g -O2)
 
-target_link_libraries(RTv1 Vulkan::Vulkan glfw ${GLFW_LIBRARIES} ${OPENGL_glu_LIBRARY} libft)
+add_executable(RTv1 rt.h
+        main.c keyboard_control.c
+        help_functions.c f_open_cl.c draw.c)
+
+target_link_libraries(RTv1 libmlx libft "-framework OpenGL" "-framework AppKit" OpenCL::OpenCL)
