@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/13 15:05:55 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/14 13:26:49 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void 	draw(t_param_window *p, t_scene *scene)
 	i = 0;
 	while (i < WIN_X)
 	{
-		x = (-WIN_X / 2 + i) / WIN_X;
+		x = -WIN_X / 2 + i;
 		j = 0;
 		while (j < WIN_Y)
 		{
-			y = (-WIN_Y / 2 + i) / WIN_Y;
+			y = WIN_Y / 2 - j;
 			if ((x*x + y*y) <=  (scene->sph.r * scene->sph.r))
-				mlx_pixel_put(p->mlx, p->window, i, j, 0xffffff);
+				mlx_pixel_put(p->mlx, p->window, i, j, scene->sph.color);
+			else
+				mlx_pixel_put(p->mlx, p->window, i, j, scene->bg_color);
 			j++;
 		}
 		i++;

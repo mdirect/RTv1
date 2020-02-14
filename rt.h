@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/13 14:25:04 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/14 13:09:18 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,19 @@ typedef struct 			s_sphere
 {
 	t_point				c;
 	double 				r;
+	__uint32_t			color;
 }						t_sphere;
 
 typedef struct			s_scene
 {
+	__uint32_t			bg_color;
+	t_point				o;
 	t_sphere			sph;
 }						t_scene;
 
 int						ft_usage(void);
 void					create_windows(t_param_window *p);
+t_sphere				make_sphere(t_point centre, double radius, __uint32_t color);
 void 					draw(t_param_window *p, t_scene *scene);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
