@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/14 13:09:18 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/23 14:43:54 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ int						ft_usage(void);
 void					create_windows(t_param_window *p);
 t_sphere				make_sphere(t_point centre, double radius, __uint32_t color);
 void 					draw(t_param_window *p, t_scene *scene);
+__uint32_t				k_color(double k, __uint32_t color);
+__uint32_t				add_color(__uint32_t color1, __uint32_t color2);
+double					scalar(t_point a, t_point b);
+double 					hit_sphere(t_scene *scene, t_point d);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
 
