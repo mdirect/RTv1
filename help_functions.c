@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 13:37:20 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:16:47 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:47:44 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ __uint32_t		k_color(double k, __uint32_t color)
 	if (k <= 0)
 		return (0);
 	r = color >> (unsigned)16;
-	g = ((color  << (unsigned)16)) >> (unsigned)24;
-	b = ((color  << (unsigned)24)) >> (unsigned)24;
+	g = ((color << (unsigned)16)) >> (unsigned)24;
+	b = ((color << (unsigned)24)) >> (unsigned)24;
 	r = ((k * r) > 255) ? 255 : (k * r);
 	g = ((k * g) > 255) ? 255 : (k * g);
 	b = ((k * b) > 255) ? 255 : (k * b);
@@ -37,21 +37,21 @@ __uint32_t		add_color(__uint32_t color1, __uint32_t color2)
 	unsigned int b;
 
 	r = (color1 >> (unsigned)16) | (color2 >> (unsigned)16);
-	g = (((color1  << (unsigned)16)) >> (unsigned)24) |
-		(((color2  << (unsigned)16)) >> (unsigned)24);
-	b = (((color1  << (unsigned)24)) >> (unsigned)24) |
-		(((color2  << (unsigned)24)) >> (unsigned)24);
+	g = (((color1 << (unsigned)16)) >> (unsigned)24) |
+		(((color2 << (unsigned)16)) >> (unsigned)24);
+	b = (((color1 << (unsigned)24)) >> (unsigned)24) |
+		(((color2 << (unsigned)24)) >> (unsigned)24);
 	r = (r > 255) ? 255 : r;
 	g = (g > 255) ? 255 : g;
 	b = (b > 255) ? 255 : b;
-	return ((r << (unsigned)16) | (g << (unsigned)8) | b)  ;
+	return ((r << (unsigned)16) | (g << (unsigned)8) | b);
 }
 
 /*
- * The quadratic formula for the roots of the quadratic equation use D/4
- */
+** The quadratic formula for the roots of the quadratic equation use D/4
+*/
 
-double 			quadr_eq_solve(double a, double b, double c)
+double			quadr_eq_solve(double a, double b, double c)
 {
 	double disc;
 	double t1;
@@ -71,7 +71,7 @@ double 			quadr_eq_solve(double a, double b, double c)
 	return (1);
 }
 
-int			ft_usage(void)
+int				ft_usage(void)
 {
 	write(1, "usage: ./rt input_rt\n", 21);
 	return (0);

@@ -6,13 +6,13 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 11:32:33 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:33:47 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:34:27 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int 			hit_sphere(t_scene *scene, t_point d)
+int			hit_sphere(t_scene *scene, t_point d)
 {
 	double a;
 	double b;

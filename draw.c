@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:40:49 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:49:32 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,17 @@ void			create_windows(t_param_window *p)
 	p->bpp = 32;
 	endian = 0;
 	p->win_x = WIN_X;
-	p->img_data = (int *)mlx_get_data_addr(p->img, &p->bpp, &(p->win_x), &endian);
+	p->img_data = (int *)mlx_get_data_addr(p->img, &p->bpp,
+			&(p->win_x), &endian);
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }
 
-void 			draw(t_param_window *p, t_scene *scene)
+void			draw(t_param_window *p, t_scene *scene)
 {
-	int i, j;
-	double x, y;
+	int		i;
+	int		j;
+	double	x;
+	double	y;
 
 	j = 0;
 	while (j < WIN_Y)
