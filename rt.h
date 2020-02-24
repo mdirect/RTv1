@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:54:27 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 15:52:43 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ typedef struct			s_sphere
 	t_point				c;
 	double				r;
 	__uint32_t			color;
+	double				t;
+	t_point				p;
+	t_point				n;
 }						t_sphere;
 
 typedef struct			s_scene
@@ -70,6 +73,8 @@ __uint32_t				k_color(double k, __uint32_t color);
 __uint32_t				add_color(__uint32_t color1, __uint32_t color2);
 t_point					vector(t_point a, t_point b);
 double					scalar(t_point a, t_point b);
+t_point					multi(double k, t_point a);
+t_point					summa(t_point a, t_point b);
 double					modul(t_point a);
 double					quadr_eq_solve(double a, double b, double c);
 int						hit_sphere(t_scene *scene, t_point d);

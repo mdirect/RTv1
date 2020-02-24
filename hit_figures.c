@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 11:32:33 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:34:27 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 15:52:43 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,9 @@ int			hit_sphere(t_scene *scene, t_point d)
 	b = scalar(vector(scene->sph.c, scene->o), vector(scene->o, d));
 	c = scalar(vector(scene->sph.c, scene->o), vector(scene->sph.c, scene->o)) -
 		(scene->sph.r * scene->sph.r);
-	return ((quadr_eq_solve(a, b, c) > 1.0) ? 1 : 0);
+	scene->sph.t = quadr_eq_solve(a, b, c);
+	scene->sph.p = summa(multi( scene->sph.t, vector(scene->o, d)), scene->o);
+	scene->sph.n = vector(scene->sph.p, scene->sph.c);
+	scene->sph.n = multi(1.0 / modul(scene->sph.n), scene->sph.n);
+	return ((scene->sph.t > 1.0) ? 1 : 0);
 }

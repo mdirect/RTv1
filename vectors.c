@@ -22,6 +22,22 @@ double		modul(t_point a)
 	return (sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
+t_point		multi(double k, t_point a)
+{
+	a.x *= k;
+	a.y *= k;
+	a.z *= k;
+	return (a);
+}
+
+t_point		summa(t_point a, t_point b)
+{
+	b.x += a.x;
+	b.y += a.y;
+	b.z += a.z;
+	return (b);
+}
+
 t_point		vector(t_point a, t_point b)
 {
 	b.x -= a.x;
