@@ -88,6 +88,6 @@ add_compile_options (-Wall -Werror -Wextra -g -O2)
 
 add_executable(RTv1 rt.h
         main.c keyboard_control.c
-        help_functions.c f_open_cl.c draw.c figures.c)
+        help_functions.c f_open_cl.c draw.c figures.c vectors.c hit_figures.c)
 
 target_link_libraries(RTv1 libmlx libft "-framework OpenGL" "-framework AppKit" OpenCL::OpenCL)

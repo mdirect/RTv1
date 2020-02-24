@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   vectors.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 12:30:10 by mdirect          ###   ########.fr       */
+/*   Created: 2020/02/24 09:20:28 by mdirect           #+#    #+#             */
+/*   Updated: 2020/02/24 09:21:22 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void 	make_scene(t_scene *scene)
+double		scalar(t_point a, t_point b)
 {
-	scene->bg_color = 0x000000;
-	scene->o = (t_point){0.0, 0.0, 0.0};
-	scene->sph = make_sphere((t_point){0.0, 0.0, 20.0}, 1.01, 0x00FF00);
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-int		main(int argc, char **argv)
+double		modul(t_point a)
 {
-	t_param_window	p;
-	t_scene			scene;
+	return (sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
+}
 
-	if (argc != 1)
-		return (ft_usage());
-	argv[1] = NULL;
-
-	create_windows(&p);
-	make_scene(&scene);
-	draw(&p, &scene);
-//	compile_cl(&p);
-	push_control(&p);
-	mlx_loop(p.mlx);
-	return (0);
+t_point		vector(t_point a, t_point b)
+{
+	b.x -= a.x;
+	b.y -= a.y;
+	b.z -= a.z;
+	return (b);
 }

@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/23 16:12:47 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 12:41:08 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,75 +14,64 @@
 
 void			create_windows(t_param_window *p)
 {
-	int				bpp;
 	int				endian;
 
 	p->mlx = mlx_init();
 	p->window = mlx_new_window(p->mlx, WIN_X, WIN_Y, "RTv1");
 	p->img = mlx_new_image(p->mlx, WIN_X, WIN_Y);
-	bpp = 32;
+	p->bpp = 32;
 	endian = 0;
 	p->win_x = WIN_X;
-	p->img_data = (int *)mlx_get_data_addr(p->img, &bpp, &(p->win_x), &endian);
+	p->img_data = (int *)mlx_get_data_addr(p->img, &p->bpp, &(p->win_x), &endian);
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }
 
-double 			hit_sphere(t_scene *scene, t_point d)
-{
-	double t1, t2;
-	double disc;
-	double a, b, c;
-
-	a = scalar(d, d);
-	b = scalar(scene->sph.c, d);
-	c = scalar(scene->sph.c, scene->sph.c) - (scene->sph.r * scene->sph.r);
-	disc = b * b - a * c;
-	if (disc < 0)
-		return (0);
-	t1 = (-b + sqrt(disc)) / a;
-	t2 = (-b - sqrt(disc)) / a;
-	if (t1 == t2 && t1 > 1)
-		return (t1);
-	else
-	{
-		if (t1 < t2)
-			if (t1 > 1)
-				return (t1);
-			if (t2 > 1)
-				return (t2);
-		if (t1 > t2)
-			if (t2 > 1)
-				return (t2);
-			if (t1 > 1)
-				return (t1);
-	}
-	return (0);
-}
+//void 			draw(t_param_window *p, t_scene *scene)
+//{
+//	int i, j;
+//	double x, y;
+//
+//	j = 0;
+//	while (j < WIN_Y)
+//	{
+//		y = WIN_Y / 2 * (1.0 / WIN_X) - (double)j * (1.0 / WIN_Y);
+//		i = 0;
+//		while (i < WIN_X)
+//		{
+//			x = -WIN_X / 2 * (1.0 / WIN_X) + (double)i * (1.0 / WIN_X);
+//			if (hit_sphere(scene, (t_point){x, y, 1}))
+//				p->img_data[j * WIN_X + i] = scene->sph.color;
+//			else
+//				p->img_data[j * WIN_X + i] = scene->bg_color;
+//			i++;
+//		}
+//		j++;
+//	}
+//	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
+//}
 
 void 			draw(t_param_window *p, t_scene *scene)
 {
 	int i, j;
+	int a = 0, b = 0;
 	double x, y;
 
-	i = 0;
-	while (i < WIN_X)
+	j = (-1) * WIN_Y / 2 - 1;
+	while (++j < WIN_Y / 2)
 	{
-		x = -0.5 + (double)i / WIN_X;
-		j = 0;
-		while (j < WIN_Y)
+		y = (double)j * (1.0 / WIN_Y);
+		i = (-1) * WIN_X / 2 - 1;
+		while (++i < WIN_X / 2)
 		{
-			y = 0.5 - (double)j / WIN_Y;
-			if ((hit_sphere(scene, (t_point){x, y, 1})))
-				mlx_pixel_put(p->mlx, p->window, i, j, scene->sph.color);
-			else
-				mlx_pixel_put(p->mlx, p->window, i, j, scene->bg_color);
-
-//			if ((x*x + y*y) <=  (scene->sph.r * scene->sph.r))
-//				mlx_pixel_put(p->mlx, p->window, i, j, scene->sph.color);
+			x = (double)i * (1.0 / WIN_X);
+//			if (hit_sphere(scene, (t_point){x, y, 1}))
+//				p->img_data[a + b * WIN_X] = scene->sph.color;
 //			else
-//				mlx_pixel_put(p->mlx, p->window, i, j, scene->bg_color);
-			j++;
+				p->img_data[a + b * WIN_X] = scene->bg_color;
+			a++;
 		}
-		i++;
+		a = 0;
+		b++;
 	}
+	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }

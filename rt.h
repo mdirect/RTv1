@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/23 14:43:54 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 11:31:47 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct			s_param_window
 	void				*mlx;
 	void				*img;
 	int					*img_data;
+	int 				bpp;
 	int					win_x;
 }						t_param_window;
 
@@ -87,7 +88,10 @@ t_sphere				make_sphere(t_point centre, double radius, __uint32_t color);
 void 					draw(t_param_window *p, t_scene *scene);
 __uint32_t				k_color(double k, __uint32_t color);
 __uint32_t				add_color(__uint32_t color1, __uint32_t color2);
+t_point					vector(t_point a, t_point b);
 double					scalar(t_point a, t_point b);
+double					modul(t_point a);
+double 					quadr_eq_solve(double a, double b, double c);
 double 					hit_sphere(t_scene *scene, t_point d);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
