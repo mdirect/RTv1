@@ -17,8 +17,8 @@ t_sphere	make_sphere(t_point centre, double radius, __uint32_t color)
 	t_sphere sphere;
 
 	sphere.c.x = centre.x;
-	sphere.c.y = centre.x;
-	sphere.c.z = centre.x;
+	sphere.c.y = centre.y;
+	sphere.c.z = centre.z;
 	sphere.r = radius;
 	sphere.color = color;
 	return (sphere);

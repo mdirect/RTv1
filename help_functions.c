@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 13:37:20 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 11:52:34 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:16:47 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,20 @@ __uint32_t		add_color(__uint32_t color1, __uint32_t color2)
 double 			quadr_eq_solve(double a, double b, double c)
 {
 	double disc;
-//	double t1;
-//	double t2;
+	double t1;
+	double t2;
 
 	disc = b * b - a * c;
 	if (disc < 0)
 		return (0);
-//	t1 = (-b + sqrt(disc)) / a;
-//	t2 = (-b - sqrt(disc)) / a;
-//	if (t1 == t2 && t1 > 1)
-//		return (t1);
-//	if (((t1 > t2 && t2 <= 1) || t1 < t2) && t1 > 1)
-//		return (t1);
-//	if (((t1 < t2 && t1 <= 1) || t1 > t2) && t2 > 1)
-//		return (t2);
+	t1 = (-b + sqrt(disc)) / a;
+	t2 = (-b - sqrt(disc)) / a;
+	if (t1 == t2 && t1 > 1)
+		return (t1);
+	if (((t1 > t2 && t2 <= 1) || t1 < t2) && t1 > 1)
+		return (t1);
+	if (((t1 < t2 && t1 <= 1) || t1 > t2) && t2 > 1)
+		return (t2);
 	return (1);
 }
 

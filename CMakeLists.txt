@@ -84,7 +84,7 @@ add_library(libft STATIC
         libft/get_next_line.c
         libft/libft.h)
 
-add_compile_options (-Wall -Werror -Wextra -g -O2)
+add_compile_options (-Wall -Werror -Wextra -g)
 
 add_executable(RTv1 rt.h
         main.c keyboard_control.c

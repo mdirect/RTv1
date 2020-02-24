@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 11:31:47 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:24:13 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_point					vector(t_point a, t_point b);
 double					scalar(t_point a, t_point b);
 double					modul(t_point a);
 double 					quadr_eq_solve(double a, double b, double c);
-double 					hit_sphere(t_scene *scene, t_point d);
+int 					hit_sphere(t_scene *scene, t_point d);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
 
