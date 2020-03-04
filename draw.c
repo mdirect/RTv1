@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:49:32 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/03/04 13:15:03 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void			draw(t_param_window *p, t_scene *scene)
 	int		j;
 	double	x;
 	double	y;
+	t_point	l;
 
 	j = 0;
 	while (j < WIN_Y)
@@ -43,7 +44,15 @@ void			draw(t_param_window *p, t_scene *scene)
 		{
 			x = (-WIN_X / 2 + (double)i) * (1.0 / WIN_X);
 			if (hit_sphere(scene, (t_point){x, y, 1}))
-				p->img_data[j * WIN_X + i] = scene->sph.color;
+			{
+				l = vector(scene->light, scene->sph.p);
+				l = multi(1.0 / modul(l), l);
+				if (scalar(l, scene->sph.n) > 0)
+					p->img_data[j * WIN_X + i] = add_color(scene->sph.color, k_color(0.8,
+						k_color(scalar(l, scene->sph.n), 0xFFFFFF)));
+				else
+					p->img_data[j * WIN_X + i] = k_color(sqrt(1 - pow(scalar(l, scene->sph.n), 2)), scene->sph.color);
+			}
 			else
 				p->img_data[j * WIN_X + i] = scene->bg_color;
 			i++;

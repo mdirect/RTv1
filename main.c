@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 13:47:44 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/03/04 13:13:48 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	make_scene(t_scene *scene)
 {
 	scene->bg_color = 0x000000;
 	scene->o = (t_point){0.0, 0.0, 0.0};
-	scene->sph = make_sphere((t_point){4.0, 4.0, 20.0}, 2.0, 0x00FF00);
+	scene->light = (t_point){5.0, 5.0, 20.0};
+	scene->sph = make_sphere((t_point){0.0, 0.0, 20.0}, 2.0, 0x00FF00);
 }
 
 int		main(int argc, char **argv)

@@ -62,6 +62,7 @@ typedef struct			s_scene
 	__uint32_t			bg_color;
 	t_point				o;
 	t_sphere			sph;
+	t_point				light;
 }						t_scene;
 
 int						ft_usage(void);
