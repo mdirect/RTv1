@@ -82,6 +82,7 @@ double					modul(t_point a);
 double					quadr_eq_solve(double a, double b, double c);
 double					hit_sphere(t_scene *scene, t_point d, int i);
 __uint32_t				rt(t_param_window *p, double x, double y);
+__uint32_t				make_color(t_param_window *p, int i);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
 

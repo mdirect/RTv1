@@ -27,12 +27,26 @@ void			create_windows(t_param_window *p)
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }
 
-__uint32_t		rt(t_param_window *p, double x, double y)
+__uint32_t		make_color(t_param_window *p, int i)
 {
 	t_point	l;
-	int i;
-	double cls_t;
-	int cls_sph;
+
+	l = vector(p->scene.light, p->scene.sph[i].p);
+	l = multi(1.0 / modul(l), l);
+	if (scalar(l, p->scene.sph[i].n) > 0)
+		return (add_color(k_color(scalar(l,
+				p->scene.sph[i].n), 0xFFFFFF),
+						p->scene.sph[i].color));
+	else
+		return (k_color(sqrt(1 - pow(scalar(l, p->scene.sph[i].n), 2)),
+						p->scene.sph[i].color));
+}
+
+__uint32_t		rt(t_param_window *p, double x, double y)
+{
+	int		i;
+	double	cls_t;
+	int		cls_sph;
 
 	cls_t = 999999;
 	cls_sph = -1;
@@ -49,16 +63,7 @@ __uint32_t		rt(t_param_window *p, double x, double y)
 	}
 	if (cls_sph == -1)
 		return (p->scene.bg_color);
-
-	l = vector(p->scene.light, p->scene.sph[cls_sph].p);
-	l = multi(1.0 / modul(l), l);
-	if (scalar(l, p->scene.sph[cls_sph].n) > 0)
-		return (add_color(p->scene.sph[cls_sph].color, k_color(0.8,
-				k_color(scalar(l, p->scene.sph[cls_sph].n), 0xFFFFFF))));
-	else
-		return (k_color(sqrt(1 - pow(scalar(l, p->scene.sph[cls_sph].n), 2)),
-				p->scene.sph[cls_sph].color));
-//	return (p->scene.sph[cls_sph].color);
+	return (make_color(p, cls_sph));
 }
 
 void			draw(t_param_window *p)
