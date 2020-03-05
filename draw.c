@@ -27,13 +27,46 @@ void			create_windows(t_param_window *p)
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }
 
-void			draw(t_param_window *p, t_scene *scene)
+__uint32_t		rt(t_param_window *p, double x, double y)
+{
+	t_point	l;
+	int i;
+	double cls_t;
+	int cls_sph;
+
+	cls_t = 999999;
+	cls_sph = -1;
+	i = 0;
+	while (i < 3)
+	{
+		if (hit_sphere(&p->scene, (t_point) {x, y, 1}, i))
+			if (p->scene.sph[i].t < cls_t)
+			{
+				cls_t = p->scene.sph[i].t;
+				cls_sph = i;
+			}
+		i++;
+	}
+	if (cls_sph == -1)
+		return (p->scene.bg_color);
+
+	l = vector(p->scene.light, p->scene.sph[cls_sph].p);
+	l = multi(1.0 / modul(l), l);
+	if (scalar(l, p->scene.sph[cls_sph].n) > 0)
+		return (add_color(p->scene.sph[cls_sph].color, k_color(0.8,
+				k_color(scalar(l, p->scene.sph[cls_sph].n), 0xFFFFFF))));
+	else
+		return (k_color(sqrt(1 - pow(scalar(l, p->scene.sph[cls_sph].n), 2)),
+				p->scene.sph[cls_sph].color));
+//	return (p->scene.sph[cls_sph].color);
+}
+
+void			draw(t_param_window *p)
 {
 	int		i;
 	int		j;
 	double	x;
 	double	y;
-	t_point	l;
 
 	j = 0;
 	while (j < WIN_Y)
@@ -43,18 +76,7 @@ void			draw(t_param_window *p, t_scene *scene)
 		while (i < WIN_X)
 		{
 			x = (-WIN_X / 2 + (double)i) * (1.0 / WIN_X);
-			if (hit_sphere(scene, (t_point){x, y, 1}))
-			{
-				l = vector(scene->light, scene->sph.p);
-				l = multi(1.0 / modul(l), l);
-				if (scalar(l, scene->sph.n) > 0)
-					p->img_data[j * WIN_X + i] = add_color(scene->sph.color, k_color(0.8,
-						k_color(scalar(l, scene->sph.n), 0xFFFFFF)));
-				else
-					p->img_data[j * WIN_X + i] = k_color(sqrt(1 - pow(scalar(l, scene->sph.n), 2)), scene->sph.color);
-			}
-			else
-				p->img_data[j * WIN_X + i] = scene->bg_color;
+			p->img_data[j * WIN_X + i] = rt(p, x, y);
 			i++;
 		}
 		j++;

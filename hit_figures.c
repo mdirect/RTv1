@@ -12,19 +12,19 @@
 
 #include "rt.h"
 
-int			hit_sphere(t_scene *scene, t_point d)
+double		hit_sphere(t_scene *scene, t_point d, int i)
 {
 	double a;
 	double b;
 	double c;
 
 	a = scalar(vector(scene->o, d), vector(scene->o, d));
-	b = scalar(vector(scene->sph.c, scene->o), vector(scene->o, d));
-	c = scalar(vector(scene->sph.c, scene->o), vector(scene->sph.c, scene->o)) -
-		(scene->sph.r * scene->sph.r);
-	scene->sph.t = quadr_eq_solve(a, b, c);
-	scene->sph.p = summa(multi(scene->sph.t, vector(scene->o, d)), scene->o);
-	scene->sph.n = vector(scene->sph.p, scene->sph.c);
-	scene->sph.n = multi((1.0 / scene->sph.r), scene->sph.n);
-	return ((scene->sph.t > 1.0) ? 1 : 0);
+	b = scalar(vector(scene->sph[i].c, scene->o), vector(scene->o, d));
+	c = scalar(vector(scene->sph[i].c, scene->o), vector(scene->sph[i].c, scene->o)) -
+		(scene->sph[i].r * scene->sph[i].r);
+	scene->sph[i].t = quadr_eq_solve(a, b, c);
+	scene->sph[i].p = summa(multi(scene->sph[i].t, vector(scene->o, d)), scene->o);
+	scene->sph[i].n = vector(scene->sph[i].p, scene->sph[i].c);
+	scene->sph[i].n = multi((1.0 / scene->sph[i].r), scene->sph[i].n);
+	return ((scene->sph[i].t > 1.0) ? scene->sph[i].t : 0);
 }
