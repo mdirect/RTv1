@@ -14,7 +14,7 @@
 
 void			create_windows(t_param_window *p)
 {
-	int				endian;
+	int		endian;
 
 	p->mlx = mlx_init();
 	p->window = mlx_new_window(p->mlx, WIN_X, WIN_Y, "RTv1");
@@ -34,12 +34,11 @@ __uint32_t		make_color(t_param_window *p, int i)
 	l = vector(p->scene.light, p->scene.sph[i].p);
 	l = multi(1.0 / modul(l), l);
 	if (scalar(l, p->scene.sph[i].n) > 0)
-		return (add_color(k_color(scalar(l,
-				p->scene.sph[i].n), 0xFFFFFF),
-						p->scene.sph[i].color));
+		return (add_color(k_color(scalar(l, p->scene.sph[i].n),
+				0xFFFFFF), p->scene.sph[i].color));
 	else
 		return (k_color(sqrt(1 - pow(scalar(l, p->scene.sph[i].n), 2)),
-						p->scene.sph[i].color));
+				p->scene.sph[i].color));
 }
 
 __uint32_t		rt(t_param_window *p, double x, double y)
@@ -50,17 +49,14 @@ __uint32_t		rt(t_param_window *p, double x, double y)
 
 	cls_t = 999999;
 	cls_sph = -1;
-	i = 0;
-	while (i < 3)
-	{
+	i = -1;
+	while (++i < SPH_C)
 		if (hit_sphere(&p->scene, (t_point) {x, y, 1}, i))
 			if (p->scene.sph[i].t < cls_t)
 			{
 				cls_t = p->scene.sph[i].t;
 				cls_sph = i;
 			}
-		i++;
-	}
 	if (cls_sph == -1)
 		return (p->scene.bg_color);
 	return (make_color(p, cls_sph));
@@ -73,18 +69,16 @@ void			draw(t_param_window *p)
 	double	x;
 	double	y;
 
-	j = 0;
-	while (j < WIN_Y)
+	j = -1;
+	while (++j < WIN_Y)
 	{
-		y = (WIN_Y / 2 - (double)j) * (1.0 / WIN_Y);
-		i = 0;
-		while (i < WIN_X)
+		i = -1;
+		while (++i < WIN_X)
 		{
 			x = (-WIN_X / 2 + (double)i) * (1.0 / WIN_X);
+			y = (WIN_Y / 2 - (double)j) * (1.0 / WIN_Y);
 			p->img_data[j * WIN_X + i] = rt(p, x, y);
-			i++;
 		}
-		j++;
 	}
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }

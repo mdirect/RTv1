@@ -14,6 +14,7 @@
 # define RT_H
 # define WIN_X 1000
 # define WIN_Y 1000
+# define SPH_C 3
 
 # include "minilibx_macos/mlx.h"
 # include "libft/libft.h"
@@ -43,7 +44,7 @@ typedef struct			s_scene
 {
 	__uint32_t			bg_color;
 	t_point				o;
-	t_sphere			sph[3];
+	t_sphere			sph[SPH_C];
 	t_point				light;
 }						t_scene;
 

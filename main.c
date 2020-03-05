@@ -18,7 +18,7 @@ void	make_scene(t_scene *scene)
 	scene->o = (t_point){0.0, 0.0, 0.0};
 	scene->light = (t_point){5.0, 5.0, 25.0};
 	scene->sph[0] = make_sphere((t_point){-3.0, 0.0, 14.0}, 1.5, 0x00FF00);
-	scene->sph[1] = make_sphere((t_point){0.0, -1.0, 13.0}, 1.0, 0xFF0000);
+	scene->sph[1] = make_sphere((t_point){-1.0, -3.0, 13.0}, 1.0, 0xFF0000);
 	scene->sph[2] = make_sphere((t_point){2.0, 0.0, 14.0}, 3.0, 0x0000FF);
 }
 
