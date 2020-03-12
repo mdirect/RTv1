@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/03/04 13:15:03 by estel            ###   ########.fr       */
+/*   Updated: 2020/03/12 14:55:35 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,28 @@ void			create_windows(t_param_window *p)
 
 __uint32_t		make_color(t_param_window *p, int i)
 {
-	t_point	l;
+	double	intens;
+	t_point l;
+	double 	scal;
+	int 	j;
 
-	l = vector(p->scene.light, p->scene.sph[i].p);
-	l = multi(1.0 / modul(l), l);
-	if (scalar(l, p->scene.sph[i].n) > 0)
-		return (add_color(k_color(scalar(l, p->scene.sph[i].n),
-				0xFFFFFF), p->scene.sph[i].color));
-	else
-		return (k_color(sqrt(1 - pow(scalar(l, p->scene.sph[i].n), 2)),
-				p->scene.sph[i].color));
+	intens = 0;
+	l = (t_point){0.0, 0.0, 0.0};
+	j = -1;
+	while (++j < LIGHT_C)
+	{
+		if (p->scene.light[j].type == 0)
+			intens += p->scene.light[j].intens;
+		else if (p->scene.light[j].type == 1)
+			l = vector(p->scene.light[j].c, p->scene.sph[i].p);
+		else
+			l = p->scene.light[j].c;
+		scal = scalar(l, p->scene.sph[i].n);
+		if (scal > 0)
+			intens += p->scene.light[j].intens * scal /
+					  (modul(p->scene.sph[i].n) * modul(l));
+	}
+	return (k_color(intens, p->scene.sph[i].color));
 }
 
 __uint32_t		rt(t_param_window *p, double x, double y)

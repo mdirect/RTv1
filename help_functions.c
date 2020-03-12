@@ -44,9 +44,6 @@ __uint32_t		add_color(__uint32_t color1, __uint32_t color2)
 	r = (r > 255) ? 255 : r;
 	g = (g > 255) ? 255 : g;
 	b = (b > 255) ? 255 : b;
-	r = (r < 0) ? 0 : r;
-	g = (g < 0) ? 0 : g;
-	b = (b < 0) ? 0 : b;
 	return ((r << (unsigned)16) | (g << (unsigned)8) | b);
 }
 

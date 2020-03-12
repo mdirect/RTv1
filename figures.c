@@ -12,6 +12,18 @@
 
 #include "rt.h"
 
+t_light		make_light(int type, double intens, t_point c)
+{
+	t_light light;
+
+	light.type = type;
+	light.intens = intens;
+	light.c.x = c.x;
+	light.c.y = c.y;
+	light.c.z = c.z;
+	return (light);
+}
+
 t_sphere	make_sphere(t_point centre, double radius, __uint32_t color)
 {
 	t_sphere sphere;

@@ -6,15 +6,16 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/02/24 15:52:43 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/03/12 14:59:09 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
-# define WIN_X 1000
-# define WIN_Y 1000
-# define SPH_C 3
+# define WIN_X 1200
+# define WIN_Y 1200
+# define SPH_C 4
+# define LIGHT_C 3
 
 # include "minilibx_macos/mlx.h"
 # include "libft/libft.h"
@@ -40,12 +41,19 @@ typedef struct			s_sphere
 	t_point				n;
 }						t_sphere;
 
+typedef struct			s_light
+{
+	int 				type;
+	double 				intens;
+	t_point				c;
+}						t_light;
+
 typedef struct			s_scene
 {
 	__uint32_t			bg_color;
 	t_point				o;
 	t_sphere			sph[SPH_C];
-	t_point				light;
+	t_light				light[LIGHT_C];
 }						t_scene;
 
 typedef struct			s_param_window
@@ -72,6 +80,7 @@ int						ft_usage(void);
 void					create_windows(t_param_window *p);
 t_sphere				make_sphere(t_point centre, double radius,
 						__uint32_t color);
+t_light					make_light(int type, double intens, t_point c);
 void					draw(t_param_window *p);
 __uint32_t				k_color(double k, __uint32_t color);
 __uint32_t				add_color(__uint32_t color1, __uint32_t color2);
