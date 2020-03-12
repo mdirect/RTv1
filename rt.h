@@ -6,15 +6,15 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/03/12 14:59:09 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/03/12 16:11:12 by mdirect          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
-# define WIN_X 1200
-# define WIN_Y 1200
-# define SPH_C 4
+# define WIN_X 1000
+# define WIN_Y 1000
+# define SPH_C 5
 # define LIGHT_C 3
 
 # include "minilibx_macos/mlx.h"
