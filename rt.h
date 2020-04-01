@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/03/12 16:11:12 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/04/01 11:48:30 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct			s_sphere
 	t_point				c;
 	double				r;
 	__uint32_t			color;
+	double				specular;
 	double				t;
 	t_point				p;
 	t_point				n;
@@ -79,7 +80,7 @@ typedef struct			s_mouse
 int						ft_usage(void);
 void					create_windows(t_param_window *p);
 t_sphere				make_sphere(t_point centre, double radius,
-						__uint32_t color);
+						__uint32_t color, double specular);
 t_light					make_light(int type, double intens, t_point c);
 void					draw(t_param_window *p);
 __uint32_t				k_color(double k, __uint32_t color);
@@ -92,7 +93,7 @@ double					modul(t_point a);
 double					quadr_eq_solve(double a, double b, double c);
 double					hit_sphere(t_scene *scene, t_point d, int i);
 __uint32_t				rt(t_param_window *p, double x, double y);
-__uint32_t				make_color(t_param_window *p, int i);
+__uint32_t				make_color(t_param_window *p, int i, t_point v);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
 

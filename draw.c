@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/03/12 14:55:35 by mdirect          ###   ########.fr       */
+/*   Updated: 2020/04/01 11:56:23 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ void			create_windows(t_param_window *p)
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }
 
-__uint32_t		make_color(t_param_window *p, int i)
+__uint32_t		make_color(t_param_window *p, int i, t_point v)
 {
 	double	intens;
 	t_point l;
+	t_point r;
 	double 	scal;
+	double 	scal_r;
 	int 	j;
 
 	intens = 0;
@@ -46,9 +48,18 @@ __uint32_t		make_color(t_param_window *p, int i)
 		else
 			l = p->scene.light[j].c;
 		scal = scalar(l, p->scene.sph[i].n);
+
 		if (scal > 0)
 			intens += p->scene.light[j].intens * scal /
 					  (modul(p->scene.sph[i].n) * modul(l));
+
+		if (p->scene.sph[i].specular != -1)
+		{
+			r = vector(multi(2.0 * scal, p->scene.sph[i].n), l);
+			scal_r = scalar(v, r);
+			if (scal_r > 0)
+				intens += p->scene.light[j].intens * pow(scal_r / (modul(r) * modul(v)), p->scene.sph[i].specular);
+		}
 	}
 	return (k_color(intens, p->scene.sph[i].color));
 }
@@ -71,7 +82,7 @@ __uint32_t		rt(t_param_window *p, double x, double y)
 			}
 	if (cls_sph == -1)
 		return (p->scene.bg_color);
-	return (make_color(p, cls_sph));
+	return (make_color(p, cls_sph, (t_point) {-x, -y, -1}));
 }
 
 void			draw(t_param_window *p)
