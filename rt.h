@@ -6,14 +6,16 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/01 11:48:30 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/06 23:19:39 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
-# define WIN_X 1000
-# define WIN_Y 1000
+# define WIN_X 800
+# define WIN_Y 800
+# define E 0.001
+# define INF 999999
 # define SPH_C 5
 # define LIGHT_C 3
 
@@ -37,7 +39,7 @@ typedef struct			s_sphere
 	double				r;
 	__uint32_t			color;
 	double				specular;
-	double				t;
+	double				t[2];
 	t_point				p;
 	t_point				n;
 }						t_sphere;
@@ -90,8 +92,8 @@ double					scalar(t_point a, t_point b);
 t_point					multi(double k, t_point a);
 t_point					summa(t_point a, t_point b);
 double					modul(t_point a);
-double					quadr_eq_solve(double a, double b, double c);
-double					hit_sphere(t_scene *scene, t_point d, int i);
+void					quadr_eq_solve(double a, double b, double c, double *t1, double *t2);
+void					hit_sphere(t_sphere *sph, t_point o, t_point d);
 __uint32_t				rt(t_param_window *p, double x, double y);
 __uint32_t				make_color(t_param_window *p, int i, t_point v);
 void					push_control(t_param_window *p);

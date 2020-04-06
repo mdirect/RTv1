@@ -23,17 +23,17 @@ void		push_control(t_param_window *p)
 void		move_light(int key, t_param_window *p)
 {
 	if (key == 0)
-		p->scene.light[0].c.x -= 0.2;
+		p->scene.light[1].c.x -= 0.2;
 	if (key == 12)
-		p->scene.light[0].c.x += 0.2;
+		p->scene.light[1].c.x += 0.2;
 	if (key == 1)
-		p->scene.light[0].c.y -= 0.2;
+		p->scene.light[1].c.y -= 0.2;
 	if (key == 13)
-		p->scene.light[0].c.y += 0.2;
+		p->scene.light[1].c.y += 0.2;
 	if (key == 2)
-		p->scene.light[0].c.z -= 0.2;
+		p->scene.light[1].c.z -= 0.2;
 	if (key == 14)
-		p->scene.light[0].c.z += 0.2;
+		p->scene.light[1].c.z += 0.2;
 	draw(p);
 }
 
