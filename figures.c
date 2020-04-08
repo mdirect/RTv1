@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 13:02:52 by mdirect           #+#    #+#             */
-/*   Updated: 2020/03/12 18:08:54 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/08 17:26:32 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_light		make_light(int type, double intens, t_point c)
 	return (light);
 }
 
-t_sphere	make_sphere(t_point centre, double radius, __uint32_t color, double specular)
+t_sphere	make_sphere(t_point centre, double radius, t_point color, double specular, double mirror)
 {
 	t_sphere sphere;
 
@@ -32,7 +32,10 @@ t_sphere	make_sphere(t_point centre, double radius, __uint32_t color, double spe
 	sphere.c.y = centre.y;
 	sphere.c.z = centre.z;
 	sphere.r = radius;
-	sphere.color = color;
+	sphere.color.x = color.x;
+	sphere.color.y = color.y;
+	sphere.color.z = color.z;
 	sphere.specular = specular;
+	sphere.mirror = mirror;
 	return (sphere);
 }
