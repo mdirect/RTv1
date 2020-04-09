@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 13:00:20 by mdirect           #+#    #+#             */
-/*   Updated: 2020/03/12 18:08:54 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/09 11:34:05 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,12 @@ void		push_control(t_param_window *p)
 //	mlx_hook(p->window, 6, 0, move_mouse, p);
 }
 
-void		move_light(int key, t_param_window *p)
-{
-	if (key == 0)
-		p->scene.light[1].c.x -= 0.2;
-	if (key == 12)
-		p->scene.light[1].c.x += 0.2;
-	if (key == 1)
-		p->scene.light[1].c.y -= 0.2;
-	if (key == 13)
-		p->scene.light[1].c.y += 0.2;
-	if (key == 2)
-		p->scene.light[1].c.z -= 0.2;
-	if (key == 14)
-		p->scene.light[1].c.z += 0.2;
-	draw(p);
-}
-
 int			push_key(int key, t_param_window *p)
 {
 	(void)p;
 	if (key == 53)
 		exit(0);
 	if ((key >= 0 && key <= 2) || (key >= 12 && key <= 14))
-		move_light(key, p);
+		move_rotate(key, p);
 	return (0);
 }

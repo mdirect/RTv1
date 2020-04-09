@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/08 17:31:50 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/09 13:12:02 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ void	draw(t_param_window *p)
 			x = (-WIN_X / 2 + (double)i) * (1.0 / WIN_X);
 			y = (WIN_Y / 2 - (double)j) * (1.0 / WIN_Y);
 			p->img_data[j * WIN_X + i] = check_color(rt(&p->scene, p->scene.o,
-					(t_point) {x, y, 1}, 1.0, INFINITY, DEPTH));
+					rotate_matrix(&p->scene, (t_point) {x, y, 1}),
+					1.0, INFINITY, DEPTH));
 		}
 	}
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
