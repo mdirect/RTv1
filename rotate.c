@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:12:02 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/09 13:34:01 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ t_point		rotate_z(double angle, t_point d)
 void		move_rotate(int key, t_param_window *p)
 {
 	if (key == 0)
-		p->scene.angle.x -= 0.2;
+		p->scene.angle.x -= 0.01;
 	if (key == 12)
-		p->scene.angle.x += 0.2;
+		p->scene.angle.x += 0.01;
 	if (key == 1)
-		p->scene.angle.y -= 0.2;
+		p->scene.angle.y -= 0.01;
 	if (key == 13)
-		p->scene.angle.y += 0.2;
+		p->scene.angle.y += 0.01;
 	if (key == 2)
-		p->scene.angle.z -= 0.2;
+		p->scene.angle.z -= 0.01;
 	if (key == 14)
-		p->scene.angle.z += 0.2;
+		p->scene.angle.z += 0.01;
 	draw(p);
 }

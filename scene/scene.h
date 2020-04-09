@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:54:06 by estel            ###   ########.fr       */
+/*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
+/*   Updated: 2020/04/09 13:51:34 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
-#include "scene/scene.h"
+#ifndef RTV1_SCENE_H
+# define RTV1_SCENE_H
 
-int		main(int argc, char **argv)
-{
-	t_param_window	p;
+# include "rt.h"
 
-	if (argc != 1)
-		return (ft_usage());
-	argv[1] = NULL;
-	create_windows(&p);
-//	scene_1(&p.scene);
-	scene_2(&p.scene);
-	draw(&p);
-	push_control(&p);
-	mlx_loop(p.mlx);
-	return (0);
-}
+void		scene_1(t_scene *scene);
+void		scene_2(t_scene *scene);
+
+#endif

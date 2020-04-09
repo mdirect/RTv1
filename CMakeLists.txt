@@ -86,9 +86,10 @@ add_library(libft STATIC
 
 add_compile_options (-Wall -Werror -Wextra -g)
 
-add_executable(RTv1 rt.h
+add_executable(RTv1 rt.h scene/scene.h
         main.c keyboard_control.c
         help_functions.c draw.c figures.c vectors.c hit_figures.c
-        rotate.c)
+        rotate.c
+        scene/scene1.c scene/scene2.c)
 
 target_link_libraries(RTv1 libmlx libft "-framework OpenGL" "-framework AppKit" OpenCL::OpenCL)

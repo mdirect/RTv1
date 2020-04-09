@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:12:02 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/09 13:53:17 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # define WIN_X 800
 # define WIN_Y 800
 # define E 0.001
-# define INF 999999
 # define DEPTH 3
 # define SPH_C 5
 # define LIGHT_C 3
@@ -57,7 +56,6 @@ typedef struct			s_scene
 {
 	t_point				bg_color;
 	t_point				o;
-	double				matrix[3][3];
 	t_point 		    angle;
 	t_sphere			sph[SPH_C];
 	t_light				light[LIGHT_C];
@@ -104,6 +102,7 @@ t_point					rt(t_scene *s, t_point o, t_point d, double min_t,
 						double max_t, int depth);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
+int						x_close(void *param);
 t_point					rotate_matrix(t_scene *s, t_point d);
 void					move_rotate(int key, t_param_window *p);
 t_point					rotate_x(double angle, t_point d);
