@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 13:02:52 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/08 17:26:32 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/12 11:19:23 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ t_light		make_light(int type, double intens, t_point c)
 	return (light);
 }
 
-t_sphere	make_sphere(t_point centre, double radius, t_point color, double specular, double mirror)
+t_object	make_sphere(t_point centre, double radius, t_point color,
+			double specular, double mirror)
 {
-	t_sphere sphere;
+	t_object sphere;
 
+	sphere.type = 1;
 	sphere.c.x = centre.x;
 	sphere.c.y = centre.y;
 	sphere.c.z = centre.z;
@@ -38,4 +40,22 @@ t_sphere	make_sphere(t_point centre, double radius, t_point color, double specul
 	sphere.specular = specular;
 	sphere.mirror = mirror;
 	return (sphere);
+}
+
+t_object	make_cylinder(t_point centre, double radius, t_point line, t_point color, double specular, double mirror)
+{
+	t_object cylinder;
+
+	cylinder.type = 2;
+	cylinder.c.x = centre.x;
+	cylinder.c.y = centre.y;
+	cylinder.c.z = centre.z;
+	cylinder.r = radius;
+	cylinder.l = line;
+	cylinder.color.x = color.x;
+	cylinder.color.y = color.y;
+	cylinder.color.z = color.z;
+	cylinder.specular = specular;
+	cylinder.mirror = mirror;
+	return (cylinder);
 }

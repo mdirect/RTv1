@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 13:00:20 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:31:21 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/09 21:27:26 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ void		push_control(t_param_window *p)
 void		move_camera(int key, t_param_window *p)
 {
 	if (key == 3)
-		p->scene.o.x -= 0.5;
+		p->scene.o.x -= 0.25;
 	if (key == 15)
-		p->scene.o.x += 0.5;
+		p->scene.o.x += 0.25;
 	if (key == 5)
-		p->scene.o.y -= 0.5;
+		p->scene.o.y -= 0.25;
 	if (key == 17)
-		p->scene.o.y += 0.5;
+		p->scene.o.y += 0.25;
 	if (key == 4)
-		p->scene.o.z -= 0.5;
+		p->scene.o.z -= 0.25;
 	if (key == 16)
-		p->scene.o.z += 0.5;
+		p->scene.o.z += 0.25;
 	draw(p);
 }
 

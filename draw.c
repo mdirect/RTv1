@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:12:02 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/12 22:30:46 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ int		closest(t_scene *s, t_point o, t_point d, double min_t, double max_t)
 	i = -1;
 	while (++i < SPH_C)
 	{
-		hit_sphere(&s->sph[i], o, d);
-		if (s->sph[i].t[0] < cls_t && min_t < s->sph[i].t[0] &&
-			s->sph[i].t[0] < max_t)
+		hit_figures(&s->obj[i], o, d);
+		if (s->obj[i].t[0] < cls_t && min_t < s->obj[i].t[0] &&
+			s->obj[i].t[0] < max_t)
 		{
-			cls_t = s->sph[i].t[0];
+			cls_t = s->obj[i].t[0];
 			cls_sph = i;
 		}
-		if (s->sph[i].t[1] < cls_t && min_t < s->sph[i].t[1] &&
-			s->sph[i].t[1] < max_t)
+		if (s->obj[i].t[1] < cls_t && min_t < s->obj[i].t[1] &&
+			s->obj[i].t[1] < max_t)
 		{
-			cls_t = s->sph[i].t[1];
-			s->sph[i].t[0] = s->sph[i].t[1];
+			cls_t = s->obj[i].t[1];
+			s->obj[i].t[0] = s->obj[i].t[1];
 			cls_sph = i;
 		}
 	}
@@ -61,28 +61,45 @@ double	make_color(t_scene *s, t_point v, int i)
 		{
 			if (s->light[j].type == 1)
 			{
-				l = vector(s->sph[i].p, s->light[j].c);
+				l = vector(s->obj[i].p, s->light[j].c);
 				t_max = 1.0;
 			} else
 			{
 				l = s->light[j].c;
 				t_max = INFINITY;
 			}
-			if (closest(s, s->sph[i].p, l, E, t_max) != -1)
+			if (closest(s, s->obj[i].p, l, E, t_max) != -1)
 				continue;
-			if ((s_l = scalar(s->sph[i].n, l)) > 0)
-				intens += s->light[j].intens * s_l / (modul(s->sph[i].n) * modul(l));
-			if (s->sph[i].specular != -1)
+			if ((s_l = scalar(s->obj[i].n, l)) > 0)
+				intens += s->light[j].intens * s_l / (modul(s->obj[i].n) * modul(l));
+			if (s->obj[i].specular != -1)
 			{
-				r = vector(l, multi(2.0 * scalar(l, s->sph[i].n), s->sph[i].n));
+				r = vector(l, multi(2.0 * scalar(l, s->obj[i].n), s->obj[i].n));
 				if ((s_r = scalar(r, v)) > 0)
 					intens += s->light[j].intens *
 							  pow(s_r / (modul(r) * modul(v)),
-								  s->sph[i].specular);
+								  s->obj[i].specular);
 			}
 		}
 	}
 	return (intens);
+}
+
+void	normal(t_object *obj, t_point o, t_point d)
+{
+	double m;
+
+	if (obj->type == 1)
+	{
+		obj->n = vector(obj->c, obj->p);
+		obj->n = multi(1.0 / modul(obj->n), obj->n);
+	}
+	if (obj->type == 2)
+	{
+		m = obj->t[0] * scalar(d, obj->l) + scalar(vector(obj->c, o), obj->l);
+		obj->n = vector(multi(m, obj->l), vector(obj->c, obj->p));
+		obj->n = multi(1.0 / modul(obj->n), obj->n);
+	}
 }
 
 t_point	rt(t_scene *s, t_point o, t_point d, double min_t, double max_t, int depth)
@@ -94,15 +111,14 @@ t_point	rt(t_scene *s, t_point o, t_point d, double min_t, double max_t, int dep
 
 	if ((c_s = closest(s, o, d, min_t,  max_t)) == -1)
 		return (s->bg_color);
-	s->sph[c_s].p = summa(o, multi(s->sph[c_s].t[0], d));
-	s->sph[c_s].n = vector(s->sph[c_s].c, s->sph[c_s].p);
-	s->sph[c_s].n = multi(1.0 / modul(s->sph[c_s].n), s->sph[c_s].n);
-	color = multi(make_color(s, multi(-1, d), c_s), s->sph[c_s].color);
-	if (s->sph[c_s].mirror <= 0 || depth <= 0)
+	s->obj[c_s].p = summa(o, multi(s->obj[c_s].t[0], d));
+	normal(&s->obj[c_s], o, d);
+	color = multi(make_color(s, multi(-1, d), c_s), s->obj[c_s].color);
+	if (s->obj[c_s].mirror <= 0 || depth <= 0)
 		return (color);
-	r_r = vector(multi(-1, d), multi(2 * scalar(multi(-1, d), s->sph[c_s].n), s->sph[c_s].n));
-	r_c = rt(s, s->sph[c_s].p, r_r, E, INFINITY, depth - 1);
-	return (summa(multi(1 - s->sph[c_s].mirror, color), multi(s->sph[c_s].mirror, r_c)));
+	r_r = vector(multi(-1, d), multi(2 * scalar(multi(-1, d), s->obj[c_s].n), s->obj[c_s].n));
+	r_c = rt(s, s->obj[c_s].p, r_r, E, INFINITY, depth - 1);
+	return (summa(multi(1 - s->obj[c_s].mirror, color), multi(s->obj[c_s].mirror, r_c)));
 }
 
 void	draw(t_param_window *p)
