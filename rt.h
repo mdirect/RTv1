@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 10:19:11 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/13 11:25:19 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct			s_point
  * 1 - sphere
  * 2 - cylinder
  * 3 - cone
+ * 4 - plane
  */
 
 typedef struct			s_object
@@ -100,6 +101,8 @@ t_object				make_cylinder(t_point centre, double radius,
 						double mirror);
 t_object				make_cone(t_point centre, t_point line, double angle,
 						t_point color, double specular, double mirror);
+t_object				make_plane(t_point c, t_point line, t_point color,
+						double specular, double mirror);
 t_light					make_light(int type, double intens, t_point c);
 void					draw(t_param_window *p);
 __uint32_t				check_color(t_point c);
@@ -114,10 +117,12 @@ void					hit_figures(t_object *obj, t_point o, t_point d);
 void					hit_sphere(t_object *sph, t_point o, t_point d);
 void					hit_cylinder(t_object *cyl, t_point o, t_point d);
 void					hit_cone(t_object *cone, t_point o, t_point d);
+void					hit_plane(t_object *plane, t_point o, t_point d);
 void					normal(t_object *obj, t_point o, t_point d);
 void					normal_sphere(t_object *sph);
 void					normal_cylinder(t_object *cyl, t_point o, t_point d);
 void					normal_cone(t_object *cone, t_point o, t_point d);
+void					normal_plane(t_object *plane);
 int						closest(t_scene *s, t_point o, t_point d, double min_t,
 						double max_t);
 double					make_color(t_scene *s, t_point v, int i);

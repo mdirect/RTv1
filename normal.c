@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 10:33:52 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/13 11:17:30 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	normal(t_object *obj, t_point o, t_point d)
 		normal_cylinder(obj, o, d);
 	if (obj->type == 3)
 		normal_cone(obj, o, d);
+	if (obj->type == 4)
+		normal_plane(obj);
 }
 
 void	normal_sphere(t_object *sph)
@@ -45,4 +47,9 @@ void	normal_cone(t_object *cone, t_point o, t_point d)
 	m *= (1 + pow(tan(cone->angle), 2));
 	cone->n = vector(multi(m, cone->l), vector(cone->c, cone->p));
 	cone->n = multi(1.0 / modul(cone->n), cone->n);
+}
+
+void	normal_plane(t_object *plane)
+{
+	plane->n = multi(-1, plane->l);
 }

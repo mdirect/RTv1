@@ -19,5 +19,6 @@ void		scene_1(t_scene *scene);
 void		scene_2(t_scene *scene);
 void		scene_3(t_scene *scene);
 void		scene_4(t_scene *scene);
+void		scene_5(t_scene *scene);
 
 #endif

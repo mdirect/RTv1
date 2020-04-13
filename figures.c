@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/14 13:02:52 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 10:17:41 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/13 11:24:53 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_object	make_cylinder(t_point centre, double radius, t_point line,
 	return (cylinder);
 }
 
-t_object	make_cone(t_point centre, t_point line, double angle, t_point color, double specular, double mirror)
+t_object	make_cone(t_point centre, t_point line, double angle,
+			t_point color, double specular, double mirror)
 {
 	t_object cone;
 
@@ -63,4 +64,17 @@ t_object	make_cone(t_point centre, t_point line, double angle, t_point color, do
 	cone.specular = specular;
 	cone.mirror = mirror;
 	return (cone);
+}
+
+t_object	make_plane(t_point c, t_point line, t_point color, double specular, double mirror)
+{
+	t_object plane;
+
+	plane.c = c;
+	plane.type = 4;
+	plane.l = multi(1 / modul(line), line);
+	plane.color = color;
+	plane.specular = specular;
+	plane.mirror = mirror;
+	return (plane);
 }

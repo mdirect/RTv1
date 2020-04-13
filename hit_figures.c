@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/24 11:32:33 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 10:43:50 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/13 11:24:53 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	hit_figures(t_object *obj, t_point o, t_point d)
 		hit_cylinder(obj, o, d);
 	if (obj->type == 3)
 		hit_cone(obj, o, d);
+	if (obj->type == 4)
+		hit_plane(obj, o, d);
 }
 
 void		hit_sphere(t_object *sph, t_point o, t_point d)
@@ -60,4 +62,9 @@ void		hit_cone(t_object *cone, t_point o, t_point d)
 	b = scalar(vector(cone->c, o), d) - k * scalar(d, cone->l) * scalar(vector(cone->c, o), cone->l);
 	c = scalar(vector(cone->c, o), vector(cone->c, o)) - k * pow(scalar(vector(cone->c, o), cone->l), 2);
 	quadr_eq_solve(a, b, c, &cone->t[0], &cone->t[1]);
+}
+
+void		hit_plane(t_object *plane, t_point o, t_point d)
+{
+	plane->t[0] = -scalar(vector(plane->c, o), plane->l) / scalar(d, plane->l);
 }
