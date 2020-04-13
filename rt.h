@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/12 11:35:57 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/13 10:19:11 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define WIN_Y 800
 # define E 0.001
 # define DEPTH 3
-# define SPH_C 5
+# define OBJ_C 5
 # define LIGHT_C 3
 
 # include "minilibx_macos/mlx.h"
@@ -37,6 +37,7 @@ typedef struct			s_point
 /*
  * 1 - sphere
  * 2 - cylinder
+ * 3 - cone
  */
 
 typedef struct			s_object
@@ -45,6 +46,7 @@ typedef struct			s_object
 	t_point				c;
 	double				r;
 	t_point				l;
+	double				angle;
 	t_point 			color;
 	double				specular;
 	double 				mirror;
@@ -65,7 +67,7 @@ typedef struct			s_scene
 	t_point				bg_color;
 	t_point				o;
 	t_point 		    angle;
-	t_object			obj[SPH_C];
+	t_object			obj[OBJ_C];
 	t_light				light[LIGHT_C];
 }						t_scene;
 
@@ -96,6 +98,8 @@ t_object				make_sphere(t_point centre, double radius,
 t_object				make_cylinder(t_point centre, double radius,
 						t_point line, t_point color, double specular,
 						double mirror);
+t_object				make_cone(t_point centre, t_point line, double angle,
+						t_point color, double specular, double mirror);
 t_light					make_light(int type, double intens, t_point c);
 void					draw(t_param_window *p);
 __uint32_t				check_color(t_point c);
@@ -109,6 +113,11 @@ void					quadr_eq_solve(double a, double b, double c,
 void					hit_figures(t_object *obj, t_point o, t_point d);
 void					hit_sphere(t_object *sph, t_point o, t_point d);
 void					hit_cylinder(t_object *cyl, t_point o, t_point d);
+void					hit_cone(t_object *cone, t_point o, t_point d);
+void					normal(t_object *obj, t_point o, t_point d);
+void					normal_sphere(t_object *sph);
+void					normal_cylinder(t_object *cyl, t_point o, t_point d);
+void					normal_cone(t_object *cone, t_point o, t_point d);
 int						closest(t_scene *s, t_point o, t_point d, double min_t,
 						double max_t);
 double					make_color(t_scene *s, t_point v, int i);

@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/12 22:30:46 by estel            ###   ########.fr       */
+/*   Updated: 2020/04/12 23:02:57 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		closest(t_scene *s, t_point o, t_point d, double min_t, double max_t)
 	cls_t = INFINITY;
 	cls_sph = -1;
 	i = -1;
-	while (++i < SPH_C)
+	while (++i < OBJ_C)
 	{
 		hit_figures(&s->obj[i], o, d);
 		if (s->obj[i].t[0] < cls_t && min_t < s->obj[i].t[0] &&
@@ -54,7 +54,6 @@ double	make_color(t_scene *s, t_point v, int i)
 	intens = 0;
 	j = -1;
 	while (++j < LIGHT_C)
-	{
 		if (s->light[j].type == 0)
 			intens += s->light[j].intens;
 		else
@@ -81,25 +80,7 @@ double	make_color(t_scene *s, t_point v, int i)
 								  s->obj[i].specular);
 			}
 		}
-	}
 	return (intens);
-}
-
-void	normal(t_object *obj, t_point o, t_point d)
-{
-	double m;
-
-	if (obj->type == 1)
-	{
-		obj->n = vector(obj->c, obj->p);
-		obj->n = multi(1.0 / modul(obj->n), obj->n);
-	}
-	if (obj->type == 2)
-	{
-		m = obj->t[0] * scalar(d, obj->l) + scalar(vector(obj->c, o), obj->l);
-		obj->n = vector(multi(m, obj->l), vector(obj->c, obj->p));
-		obj->n = multi(1.0 / modul(obj->n), obj->n);
-	}
 }
 
 t_point	rt(t_scene *s, t_point o, t_point d, double min_t, double max_t, int depth)
@@ -116,9 +97,11 @@ t_point	rt(t_scene *s, t_point o, t_point d, double min_t, double max_t, int dep
 	color = multi(make_color(s, multi(-1, d), c_s), s->obj[c_s].color);
 	if (s->obj[c_s].mirror <= 0 || depth <= 0)
 		return (color);
-	r_r = vector(multi(-1, d), multi(2 * scalar(multi(-1, d), s->obj[c_s].n), s->obj[c_s].n));
+	r_r = vector(multi(-1, d), multi(2 * scalar(multi(-1, d), s->obj[c_s].n),
+			s->obj[c_s].n));
 	r_c = rt(s, s->obj[c_s].p, r_r, E, INFINITY, depth - 1);
-	return (summa(multi(1 - s->obj[c_s].mirror, color), multi(s->obj[c_s].mirror, r_c)));
+	return (summa(multi(1 - s->obj[c_s].mirror, color),
+			multi(s->obj[c_s].mirror, r_c)));
 }
 
 void	draw(t_param_window *p)
