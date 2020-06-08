@@ -3,7 +3,7 @@
 //
 // ol@staff.42.fr
 //
-// include opengl needed before mlx_int.h
+// inc opengl needed before mlx_int.h
 //
 
 

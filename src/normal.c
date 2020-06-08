@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 11:17:30 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/08 14:01:23 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	normal_cylinder(t_object *cyl, t_point o, t_point d)
 {
 	double m;
 
-	m = cyl->t[0] * scalar(d, cyl->l) + scalar(vector(cyl->c, o), cyl->l);
+	m = cyl->root.t1 * scalar(d, cyl->l) + scalar(vector(cyl->c, o), cyl->l);
 	cyl->n = vector(multi(m, cyl->l), vector(cyl->c, cyl->p));
 	cyl->n = multi(1.0 / modul(cyl->n), cyl->n);
 }
@@ -43,7 +43,8 @@ void	normal_cone(t_object *cone, t_point o, t_point d)
 {
 	double m;
 
-	m = cone->t[0] * scalar(d, cone->l) + scalar(vector(cone->c, o), cone->l);
+	m = cone->root.t1 * scalar(d, cone->l) + scalar(vector(cone->c, o),
+			cone->l);
 	m *= (1 + pow(tan(cone->angle), 2));
 	cone->n = vector(multi(m, cone->l), vector(cone->c, cone->p));
 	cone->n = multi(1.0 / modul(cone->n), cone->n);

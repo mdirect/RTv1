@@ -6,11 +6,12 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:34:01 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/08 14:01:23 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "keys.h"
 
 t_point		rotate_matrix(t_scene *s, t_point d)
 {
@@ -52,17 +53,16 @@ t_point		rotate_z(double angle, t_point d)
 
 void		move_rotate(int key, t_param_window *p)
 {
-	if (key == 0)
+	if (key == KEY_A)
 		p->scene.angle.x -= 0.01;
-	if (key == 12)
+	if (key == KEY_Q)
 		p->scene.angle.x += 0.01;
-	if (key == 1)
+	if (key == KEY_S)
 		p->scene.angle.y -= 0.01;
-	if (key == 13)
+	if (key == KEY_W)
 		p->scene.angle.y += 0.01;
-	if (key == 2)
+	if (key == KEY_D)
 		p->scene.angle.z -= 0.01;
-	if (key == 14)
+	if (key == KEY_E)
 		p->scene.angle.z += 0.01;
-	draw(p);
 }

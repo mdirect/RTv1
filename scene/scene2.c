@@ -6,12 +6,11 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 13:51:12 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/08 13:58:37 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include "scene.h"
 
 void	scene_2(t_scene *scene)
 {

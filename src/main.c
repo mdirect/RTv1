@@ -6,12 +6,11 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 09:49:36 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/08 14:02:21 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include "scene/scene.h"
 
 int		main(int argc, char **argv)
 {

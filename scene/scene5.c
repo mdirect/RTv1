@@ -6,7 +6,7 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/13 11:39:31 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/08 13:58:37 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	scene_5(t_scene *scene)
 			(t_point){0, 1, 0}, (t_point){255, 255, 0}, 50.0, 0.2);
 	scene->obj[2] = make_cone((t_point){1.0, -1.0, 7.1}, (t_point){3, 4, 0},
 			0.3, (t_point){0, 0, 255}, 500.0, 0.4);
-	scene->obj[3] = make_plane((t_point){1, 1, 14}, (t_point){0, 1, 0}, (t_point){255, 0, 255},
-			100.0, 0.2);
-	scene->obj[4] = make_plane((t_point){2.1, -1, 14}, (t_point){1, 0, 0}, (t_point){255, 0, 0},
-							   100.0, 0.2);
+	scene->obj[3] = make_plane((t_point){1, 1, 14}, (t_point){0, 1, 0},
+			(t_point){255, 0, 255}, 100.0, 0.2);
+	scene->obj[4] = make_plane((t_point){2.1, -1, 14}, (t_point){1, 0, 0},
+			(t_point){255, 0, 0}, 100.0, 0.2);
 }

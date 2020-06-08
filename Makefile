@@ -6,20 +6,21 @@
 #    By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/22 15:09:25 by mdirect           #+#    #+#              #
-#    Updated: 2020/03/12 18:08:54 by estel            ###   ########.fr        #
+#    Updated: 2020/06/08 14:21:07 by estel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fractol
+NAME = RTv1
 LIBSINC = -L./libft/ -L./minilibx_macos/
 LIBFTPATH = ./libft/
 MINILIBXPATH = ./minilibx_macos/
 LIBS = -lft -lmlx
 LIBSNAME = libft.a libmlx.a
-INCLUDES = -I./libft/ -I./minilibx_macos/
-HEADERS = ./fractol.h
-SRCS = f_open_cl.c help_functions.c keyboard_control.c mouse_control.c\
-	make_params.c main.c
+INCLUDES = -I./libft/ -I./minilibx_macos/ -I./inc/
+HEADERS = ./inc/rt.h ./inc/keys.h
+SRCS = ./src/main.c ./src/keyboard_control.c ./src/help_functions.c src/draw.c \
+        ./src/figures.c ./src/vectors.c ./src/hit_figures.c ./src/rotate.c \
+        ./src/normal.c ./src/threads.c ./scene/scene5.c
 OBJS = $(SRCS:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
@@ -34,7 +35,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFTPATH)
 	@$(MAKE) -C $(MINILIBXPATH)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBSINC) $(LIBS) -framework OpenGL -framework AppKit -framework OpenCL
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBSINC) $(LIBS)
 
 clean:
 	$(MAKE) fclean -C $(LIBFTPATH)

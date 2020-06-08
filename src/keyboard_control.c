@@ -6,52 +6,46 @@
 /*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 13:00:20 by mdirect           #+#    #+#             */
-/*   Updated: 2020/04/09 21:27:26 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/08 14:02:09 by estel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+#include "keys.h"
 
 void		push_control(t_param_window *p)
 {
-	mlx_hook(p->window, 17, 0, x_close, p);
+	mlx_hook(p->window, 17, 0, x_close, NULL);
 	mlx_hook(p->window, 2, 0, push_key, p);
-//	mlx_hook(p->window, 4, 0, push_mouse, p);
-//	mlx_hook(p->window, 5, 0, repush_mouse, p);
-//	mlx_hook(p->window, 6, 0, move_mouse, p);
 }
 
 void		move_camera(int key, t_param_window *p)
 {
-	if (key == 3)
+	if (key == KEY_F)
 		p->scene.o.x -= 0.25;
-	if (key == 15)
+	if (key == KEY_R)
 		p->scene.o.x += 0.25;
-	if (key == 5)
+	if (key == KEY_G)
 		p->scene.o.y -= 0.25;
-	if (key == 17)
+	if (key == KEY_T)
 		p->scene.o.y += 0.25;
-	if (key == 4)
+	if (key == KEY_H)
 		p->scene.o.z -= 0.25;
-	if (key == 16)
+	if (key == KEY_Y)
 		p->scene.o.z += 0.25;
-	draw(p);
 }
 
 int			push_key(int key, t_param_window *p)
 {
-	(void)p;
-	if (key == 53)
+	if (key == ESC)
 		exit(0);
-	if ((key >= 0 && key <= 2) || (key >= 12 && key <= 14))
-		move_rotate(key, p);
-	if ((key >= 3 && key <= 5) || (key >= 15 && key <= 17))
-		move_camera(key, p);
+	move_rotate(key, p);
+	move_camera(key, p);
+	draw(p);
 	return (0);
 }
 
-int			x_close(void *param)
+int			x_close(void)
 {
-	(void)param;
 	exit(0);
 }
