@@ -10,20 +10,44 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = RTv1
-LIBSINC = -L./libft/ -L./minilibx_macos/
-LIBFTPATH = ./libft/
-MINILIBXPATH = ./minilibx_macos/
-LIBS = -lft -lmlx
-LIBSNAME = libft.a libmlx.a
-INCLUDES = -I./libft/ -I./minilibx_macos/ -I./inc/
-HEADERS = ./inc/rt.h ./inc/keys.h
-SRCS = ./src/main.c ./src/keyboard_control.c ./src/help_functions.c src/draw.c \
-        ./src/figures.c ./src/vectors.c ./src/hit_figures.c ./src/rotate.c \
-        ./src/normal.c ./src/threads.c ./scene/scene5.c
-OBJS = $(SRCS:.c=.o)
-CC = gcc
-FLAGS = -Wall -Wextra -Werror
+NAME 		= RTv1
+
+UNAME_OS 	= $(shell uname -s)
+
+SRC_DIR		= ./src/
+#BUILD_DIR	= ./build/
+
+LIBSINC 	= -L./libft/ -L./minilibx_macos/
+LIBFTPATH 	= ./libft/
+MINILIBXPATH 	= ./minilibx_macos/
+LIBS 		= -lft -lmlx
+LIBSNAME 	= libft.a libmlx.a
+
+INCLUDES 	= -I./libft/ -I./minilibx_macos/ -I./inc/
+
+ifeq ($(UNAME_OS),Linux)
+	MINILIBXPATH	= ./minilibx/
+	LIBS 		= -lm -lXext -lX11 -lpthread
+	INCLUDES	= -I ./libft/ -I ./minilibx/ -I ./inc/
+	LIBSINC		= -L ./libft/ -lft -L ./minilibx/ -lmlx
+endif
+
+HEADERS 	= ./inc/rt.h ./inc/keys.h
+
+SRCS_LIST 	=	main.c					keyboard_control.c  \
+		  		help_functions.c 		draw.c \
+        		figures.c				vectors.c \
+				hit_figures.c 			rotate.c \
+        		normal.c 				threads.c \
+		  		parse_scene.c			scene1.c
+
+SRCS		= $(addprefix $(SRC_DIR), $(SRCS_LIST))
+OBJS		= $(SRCS:.c=.o)
+#OBJS		= $(addprefix $(BUILD_DIR, $(SRCS:.c=.o))
+
+CC 			= gcc
+
+FLAGS 		= -Wall -Wextra -Werror
 
 .PHONY: clean fclean re all
 

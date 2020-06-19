@@ -16,15 +16,16 @@ int		main(int argc, char **argv)
 {
 	t_param_window	p;
 
-	if (argc != 1)
+	if (argc != 2)
 		return (ft_usage());
-	argv[1] = NULL;
+	printf("%s\n", argv[1]);
+	read_scene(argv[1], &p.scene);
 	create_windows(&p);
-//	scene_1(&p.scene);
+	// scene_1(&p.scene);
 //	scene_2(&p.scene);
 //	scene_3(&p.scene);
 //	scene_4(&p.scene);
-	scene_5(&p.scene);
+	// scene_5(&p.scene);
 	draw(&p);
 	push_control(&p);
 	mlx_loop(p.mlx);

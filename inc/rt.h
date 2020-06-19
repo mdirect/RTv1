@@ -19,8 +19,9 @@
 # define OBJ_C 5
 # define LIGHT_C 3
 # define THREADS 64
+# define VALID_SCENE_SYMBOLS " ,.{}()0123456789"
 # include "mlx.h"
-# include "../libft/libft.h"
+# include "libft.h"
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -162,5 +163,7 @@ void					scene_2(t_scene *scene);
 void					scene_3(t_scene *scene);
 void					scene_4(t_scene *scene);
 void					scene_5(t_scene *scene);
+
+int						read_scene(char *filename, t_scene *scene);
 
 #endif
