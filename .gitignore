@@ -2,6 +2,6 @@ cmake-build-debug
 .DS_Store
 .idea
 
-.d
-.o
-`built/
+*.d
+*.o
+built/

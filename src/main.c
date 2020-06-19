@@ -24,7 +24,7 @@ int		main(int argc, char **argv)
 	// scene_1(&p.scene);
 //	scene_2(&p.scene);
 //	scene_3(&p.scene);
-//	scene_4(&p.scene);
+	// scene_4(&p.scene);
 	// scene_5(&p.scene);
 	draw(&p);
 	push_control(&p);

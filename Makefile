@@ -39,7 +39,7 @@ SRCS_LIST 	=	main.c					keyboard_control.c  \
         		figures.c				vectors.c \
 				hit_figures.c 			rotate.c \
         		normal.c 				threads.c \
-		  		parse_scene.c			scene1.c
+		  		parse_scene.c			scene4.c
 
 SRCS		= $(addprefix $(SRC_DIR), $(SRCS_LIST))
 OBJS		= $(SRCS:.c=.o)

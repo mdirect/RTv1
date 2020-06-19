@@ -104,23 +104,35 @@ t_point parse_point(char *str)
 	while (*tmp && (ft_isspace(*tmp)))
 		tmp++;
 	point.x = ft_atoi_d(tmp);
-	if (*tmp == '-' || *tmp == '+')
-		tmp++;
-	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.'))
+	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.' ||
+				*tmp == '-' || *tmp == '+'))
 		tmp++;
 	if (*tmp == ',')
 		tmp++;
-	else if (*tmp == ';')
-		return (point);
 	else
 	{
-		ft_putstr("Error: something wrong with the point\n");
+		ft_putstr("Error: something wrong with the point.x\n");
 		exit(1);
 	}
 	point.y = ft_atoi_d(tmp);
-	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.'))
+	printf("%.2f\n", point.y);
+	printf("|%s|\n", tmp);
+
+
+	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.' ||
+				*tmp == '-' || *tmp == '+'))
 		tmp++;
+
+	printf("|%s|\n", tmp);
+	if (*tmp == ',')
+		tmp++;
+	else
+	{
+		ft_putstr("Error: something wrong with the point.y\n");
+		exit(1);
+	}
 	point.z = ft_atoi_d(tmp);
+	printf("%.2f\n", point.z);
 	return(point);
 }
 
@@ -155,7 +167,6 @@ int read_light_params(char *buf, t_scene *scene)
 	char *tmp;
 
 	tmp = buf;
-	printf("|%s|\n", tmp);
 	light_type = ft_atoi(tmp);
 	if (light_type < 3 && light_type >= 0)
 	{
@@ -172,7 +183,6 @@ int read_light_params(char *buf, t_scene *scene)
 			tmp++;
 		else
 			return (1); //think about terminate()
-		printf("tmp |%s|\n", tmp);
 		scene->light[light_type] = make_light(light_type, intens, parse_point(tmp));
 
 	// scene->light[0] = make_light(0, 0.4, (t_point){0.0, 0.0, 0.0});
@@ -314,7 +324,7 @@ void print_structure(t_scene *scene)
 	}
 	for (int i = 0; i < OBJ_C; i++)
 	{
-		printf("type %d, center (%f, %f, %f), r %f, color (%f, %f, %f), sp %f, mir %f\n",
+		printf("type %d, center (%.2f, %.2f, %.2f), r %f, color (%.2f, %.2f, %.2f), sp %.2f, mir %.2f\n\n",
 			scene->obj[i].type, scene->obj[i].c.x, scene->obj[i].c.y, scene->obj[i].c.z,
 			scene->obj[i].r, scene->obj[i].color.x, scene->obj[i].color.y, scene->obj[i].color.z,
 			scene->obj[i].specular, scene->obj[i].mirror);
@@ -333,6 +343,8 @@ int		read_scene(char *filename, t_scene *scene)
 	obj = 0;
 	while ((ret = get_next_line(fd, &buf)))
 	{
+		if (!ft_strcmp(buf, ""))
+			continue;
 		if (ft_strcmp_head(buf, "bg_color:"))
 		{
 			scene->bg_color = parse_point(buf + 9);
