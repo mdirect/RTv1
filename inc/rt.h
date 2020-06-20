@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rtv1.h                                             :+:      :+:    :+:   */
+/*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/06/08 14:12:16 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/20 19:07:58 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define OBJ_C 5
 # define LIGHT_C 3
 # define THREADS 64
-# define VALID_SCENE_SYMBOLS " ,.{}()0123456789"
 # include "mlx.h"
 # include "libft.h"
 # include <math.h>
@@ -76,8 +75,10 @@ typedef struct			s_scene
 	t_point				bg_color;
 	t_point				o;
 	t_point				angle;
-	t_object			obj[OBJ_C];
-	t_light				light[LIGHT_C];
+	t_object			*obj;
+	t_light				*light;
+	int					light_quant;
+	int					obj_quant;
 }						t_scene;
 
 typedef struct			s_param_window
@@ -109,6 +110,14 @@ typedef	struct			s_thread_args
 	t_scene				scene;
 	t_param_window		*p;
 }						t_thread_args;
+
+
+
+typedef	struct			s_list
+{
+	char			*line;
+	struct s_list	*next;
+}						t_list;
 
 int						ft_usage(void);
 void					create_windows(t_param_window *p);
@@ -165,5 +174,8 @@ void					scene_4(t_scene *scene);
 void					scene_5(t_scene *scene);
 
 int						read_scene(char *filename, t_scene *scene);
-
+void					read_lines_from_file(t_list **lines, char *filename,
+						t_scene *scene);
+int						ft_isspace(char ch);
+int						ft_strcmp_head(const char *str, const char *head);
 #endif

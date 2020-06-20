@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+         #
+#    By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/22 15:09:25 by mdirect           #+#    #+#              #
-#    Updated: 2020/06/08 14:21:07 by estel            ###   ########.fr        #
+#    Updated: 2020/06/20 19:06:46 by hdean            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS_LIST 	=	main.c					keyboard_control.c  \
         		figures.c				vectors.c \
 				hit_figures.c 			rotate.c \
         		normal.c 				threads.c \
-		  		parse_scene.c			scene4.c
+		  		parse_scene.c			read.c \
+				read_utils.c
 
 SRCS		= $(addprefix $(SRC_DIR), $(SRCS_LIST))
 OBJS		= $(SRCS:.c=.o)

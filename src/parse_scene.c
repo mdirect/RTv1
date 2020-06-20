@@ -6,45 +6,8 @@
 #define CONE 3
 #define PLANE 4
 
-int ft_strcmp_head(const char *str, const char *head)
-{
-	size_t i;
 
-	if (!str || !head)
-		return (0);
-	i = 0;
-	while (head[i])
-	{
-		if (head[i] != str[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
-int ft_isspace(char ch)
-{
-	return (ch == ' ' || ch == '\f' || ch == '\n' || ch == '\r' || ch == '\t' || ch == '\v');
-}
-
-static int	check_fd(int fd, char *filename)
-{
-	if (fd < 0)
-	{
-		ft_putstr("Error: file ");
-		write(1, filename, ft_strlen(filename));
-		ft_putstr(" doesn't exist\n");
-		exit(1);
-	}
-	if (fd == 0 || read(fd, NULL, 0) == -1)
-	{
-		ft_putstr("Error: can't read the file: ");
-		write(1, filename, ft_strlen(filename));
-		ft_putchar('\n');
-		exit(1);
-	}
-	return (0);
-}
 
 int	ft_fast_pow(int base, int pow)
 {
@@ -185,9 +148,6 @@ int read_light_params(char *buf, t_scene *scene)
 			return (1); //think about terminate()
 		scene->light[light_type] = make_light(light_type, intens, parse_point(tmp));
 
-	// scene->light[0] = make_light(0, 0.4, (t_point){0.0, 0.0, 0.0});
-	// scene->light[1] = make_light(1, 0.6, (t_point){2.0, 1.0, 0.0});
-	// scene->light[2] = make_light(2, 0.2, (t_point){1.0, 4.0, 4.0});
 
 		return (0);
 	}
@@ -333,68 +293,61 @@ void print_structure(t_scene *scene)
 
 int		read_scene(char *filename, t_scene *scene)
 {
-	int fd;
-	char *buf;
-	int ret;
-	int obj;
+	t_list *lines;
+	t_list *tmp;
 
-	fd = open(filename, O_RDONLY);
-	check_fd(fd, filename);
-	obj = 0;
-	while ((ret = get_next_line(fd, &buf)))
-	{
-		if (!ft_strcmp(buf, ""))
-			continue;
-		if (ft_strcmp_head(buf, "bg_color:"))
-		{
-			scene->bg_color = parse_point(buf + 9);
-			check_bg_color(&scene->bg_color);
-		}
-		else if (ft_strcmp_head(buf, "o:"))
-		{
-			scene->o = parse_point(buf + 2);
-			// check_o(&scene->o);
-		}
-		else if (ft_strcmp_head(buf, "angle:"))
-		{
-			scene->angle = parse_point(buf + 6);
-			// check_angle(&scene->angle);
-		}
-		else if (ft_strcmp_head(buf, "light:"))
-		{
-			if (read_light_params(buf + 6, scene))
-				terminate("Error: in light params\n", &buf, fd);		
-		}
-		else if (ft_strcmp_head(buf, "sphere:"))
-		{
-			if (obj >= OBJ_C || read_object(SPHERE, buf + 7, scene, obj))
-				terminate("Error: in sphere\n", &buf, fd);
-			obj++;
-		}
-		else if (ft_strcmp_head(buf, "cylinder:"))
-		{
-			if (obj >= OBJ_C || read_object(CYLINDER, buf + 9, scene, obj))
-				terminate("Error: in sphere\n", &buf, fd);
-			obj++;
-		}
-		else if (ft_strcmp_head(buf, "cone:"))
-		{
-			if (obj >= OBJ_C || read_object(CONE, buf + 5, scene, obj))
-				terminate("Error: in sphere\n", &buf, fd);
-			obj++;
-		}
-		else if (ft_strcmp_head(buf, "plane:"))
-		{
-			if (obj >= OBJ_C || read_object(PLANE, buf + 6, scene, obj))
-				terminate("Error: in sphere\n", &buf, fd);
-			obj++;
-		}
-		else
-			terminate("Error: check your scene parameters.\n", &buf, fd);		
-	}
-	close(fd);
-	print_structure(scene);
-	write(1, "ok\n", 3);
+	scene->light_quant = 0;
+	scene->obj_quant = 0;
+	read_lines_from_file(&lines, filename, scene);
+	scene->light = (t_point *)ft_memalloc(sizeof(t_point) * scene->light_quant);
+	scene->obj = (t_object *)ft_memalloc(sizeof(t_object) * scene->obj_quant);
+	// tmp = lines;
+	// while (lines->line)
+	// {
+	// 	if (ft_strcmp_head(lines->line, "bg_color:"))
+	// 		scene->bg_color = parse_point(lines->line + 9);
+	// 	else if (ft_strcmp_head(lines->line, "o:"))
+	// 		scene->o = parse_point(lines->line + 2);
+	// 	else if (ft_strcmp_head(lines->line, "angle:"))
+	// 		scene->angle = parse_point(lines->line + 6);
+	// 	else if (ft_strcmp_head(lines->line, "light:"))
+	// 	{
+	// 		if (read_light_params(lines->line + 6, scene))
+	// 			terminate("Error: in light params\n", &lines->line, fd);		
+	// 	}
+	// 	else if (ft_strcmp_head(buf, "sphere:"))
+	// 	{
+	// 		if (read_object(SPHERE, buf + 7, scene, obj))
+	// 			terminate("Error: in sphere\n", &buf, fd);
+	// 		obj++;
+	// 	}
+	// 	else if (ft_strcmp_head(buf, "cylinder:"))
+	// 	{
+	// 		if (obj >= OBJ_C || read_object(CYLINDER, buf + 9, scene, obj))
+	// 			terminate("Error: in sphere\n", &buf, fd);
+	// 		obj++;
+	// 	}
+	// 	else if (ft_strcmp_head(buf, "cone:"))
+	// 	{
+	// 		if (obj >= OBJ_C || read_object(CONE, buf + 5, scene, obj))
+	// 			terminate("Error: in sphere\n", &buf, fd);
+	// 		obj++;
+	// 	}
+	// 	else if (ft_strcmp_head(buf, "plane:"))
+	// 	{
+	// 		if (obj >= OBJ_C || read_object(PLANE, buf + 6, scene, obj))
+	// 			terminate("Error: in sphere\n", &buf, fd);
+	// 		obj++;
+	// 	}
+	// 	else
+	// 		terminate("Error: check your scene parameters.\n", &buf, fd);		
+	// }
+	// close(fd);
+	// print_structure(scene);
+	// write(1, "ok\n", 3);
 	return (0);
 
 }
+
+
+
