@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyboard_control.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 13:00:20 by mdirect           #+#    #+#             */
-/*   Updated: 2020/06/08 14:02:09 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/21 19:07:29 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void		push_control(t_param_window *p)
 {
-	mlx_hook(p->window, 17, 0, x_close, NULL);
-	mlx_hook(p->window, 2, 0, push_key, p);
+	mlx_hook(p->window, 17, (1L << 17), x_close, NULL);
+	mlx_hook(p->window, 2, (1L << 2), push_key, p);
 }
 
 void		move_camera(int key, t_param_window *p)

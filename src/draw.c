@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdirect <mdirect@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 14:19:22 by mdirect           #+#    #+#             */
-/*   Updated: 2020/06/08 14:01:23 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/21 18:00:21 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		closest(t_scene *s, t_point o, t_point d, t_scope scope)
 	cls_t = INFINITY;
 	cls_sph = -1;
 	i = -1;
-	while (++i < OBJ_C)
+	while (++i < s->obj_quant)
 	{
 		hit_figures(&s->obj[i], o, d);
 		if (s->obj[i].root.t1 < cls_t && scope.min < s->obj[i].root.t1 &&
@@ -75,7 +75,7 @@ double	make_color(t_scene *s, t_point v, int i, t_scope scope)
 	intens = 0;
 	iters[0] = i;
 	iters[1] = -1;
-	while (++iters[1] < LIGHT_C)
+	while (++iters[1] < s->light_quant)
 		if (s->light[iters[1]].type == 0)
 			intens += s->light[iters[1]].intens;
 		else

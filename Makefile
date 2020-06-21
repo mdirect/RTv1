@@ -6,7 +6,7 @@
 #    By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/22 15:09:25 by mdirect           #+#    #+#              #
-#    Updated: 2020/06/20 19:06:46 by hdean            ###   ########.fr        #
+#    Updated: 2020/06/21 17:55:58 by hdean            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,22 +25,23 @@ LIBSNAME 	= libft.a libmlx.a
 
 INCLUDES 	= -I./libft/ -I./minilibx_macos/ -I./inc/
 
-ifeq ($(UNAME_OS),Linux)
+ifeq ($(UNAME_OS), Linux)
 	MINILIBXPATH	= ./minilibx/
-	LIBS 		= -lm -lXext -lX11 -lpthread
-	INCLUDES	= -I ./libft/ -I ./minilibx/ -I ./inc/
-	LIBSINC		= -L ./libft/ -lft -L ./minilibx/ -lmlx
+	LIBS 			= -lm -lXext -lX11 -lpthread
+	INCLUDES		= -I ./libft/ -I ./minilibx/ -I ./inc/
+	LIBSINC			= -L ./libft/ -lft -L ./minilibx/ -lmlx
 endif
 
-HEADERS 	= ./inc/rt.h ./inc/keys.h
+HEADERS 	= ./inc/rt.h ./inc/keys.h ./inc/read.h
 
 SRCS_LIST 	=	main.c					keyboard_control.c  \
 		  		help_functions.c 		draw.c \
-        		figures.c				vectors.c \
-				hit_figures.c 			rotate.c \
-        		normal.c 				threads.c \
+        		vectors.c 				hit_figures.c \
+				rotate.c         		normal.c \
+				threads.c \
 		  		parse_scene.c			read.c \
-				read_utils.c
+				read_utils.c			parse_utils.c \
+				parse_object.c			parse_params.c
 
 SRCS		= $(addprefix $(SRC_DIR), $(SRCS_LIST))
 OBJS		= $(SRCS:.c=.o)

@@ -1,288 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_scene.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/21 12:18:15 by hdean             #+#    #+#             */
+/*   Updated: 2020/06/21 19:21:06 by hdean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
-#include <fcntl.h>
-
-#define SPHERE 1
-#define CYLINDER 2
-#define CONE 3
-#define PLANE 4
+#include "read.h"
 
 
-
-
-int	ft_fast_pow(int base, int pow)
+int terminate(char *error, t_lines **lines, t_scene *scene)
 {
-	int res;
-
-	res = 1;
-	while (pow)
-	{
-		if (pow & 1)
-			res *= base;
-		base *= base;
-		pow >>= 1;
-	}
-	return (res);
-}
-
-double ft_atoi_d(const char *str)
-{
-	int		first;
-	int		second;
-	double	result;
-	char	*tmp;
-	int		k;
-
-
-	tmp = (char *)str;
-	first = ft_atoi(tmp);
-	while (*tmp && *tmp != '.' && *tmp != ',')
-		tmp++;
-	if (*tmp == ',')
-		return ((double)first);
-	else
-		tmp++;
-	second = ft_atoi(tmp);
-	k = 0;
-	while (*tmp && ft_isdigit(*tmp))
-	{
-		k++;
-		tmp++;
-	}
-	if (second == 0)
-		result = (double)first;
-	else
-		result = (double)(first*ft_fast_pow(10, k) + second) / ft_fast_pow(10, k);
-	return (result);
-}
-
-t_point parse_point(char *str)
-{
-	char *tmp;
-	t_point point;
-
-	point.x = 0.0;
-	point.y = 0.0;
-	point.z = 0.0;
-	tmp = str;
-	while (*tmp && (ft_isspace(*tmp)))
-		tmp++;
-	point.x = ft_atoi_d(tmp);
-	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.' ||
-				*tmp == '-' || *tmp == '+'))
-		tmp++;
-	if (*tmp == ',')
-		tmp++;
-	else
-	{
-		ft_putstr("Error: something wrong with the point.x\n");
-		exit(1);
-	}
-	point.y = ft_atoi_d(tmp);
-	printf("%.2f\n", point.y);
-	printf("|%s|\n", tmp);
-
-
-	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.' ||
-				*tmp == '-' || *tmp == '+'))
-		tmp++;
-
-	printf("|%s|\n", tmp);
-	if (*tmp == ',')
-		tmp++;
-	else
-	{
-		ft_putstr("Error: something wrong with the point.y\n");
-		exit(1);
-	}
-	point.z = ft_atoi_d(tmp);
-	printf("%.2f\n", point.z);
-	return(point);
-}
-
-int terminate(char *error, char **buf, int fd)
-{
-	ft_strdel(buf);
+	if (*lines)
+		delete_list(lines);
+	if (scene->light)
+		free(scene->light);
+	if (scene->obj)
+		free(scene->obj);
 	ft_putstr(error);
-	close(fd);
 	exit(1);
 }
 
-void check_bg_color(t_point *color)
-{
-	if (color->x < 0.0)
-		color->x = 0.0;
-	if (color->y < 0.0)
-		color->y = 0.0;
-	if (color->z < 0.0)
-		color->z = 0.0;
-	if (color->x > 255.0)
-		color->x = 255.0;
-	if (color->y > 255.0)
-		color->y = 255.0;
-	if (color->z > 255.0)
-		color->z = 255.0;
-}
-
-int read_light_params(char *buf, t_scene *scene)
-{
-	int light_type;
-	double intens;
-	char *tmp;
-
-	tmp = buf;
-	light_type = ft_atoi(tmp);
-	if (light_type < 3 && light_type >= 0)
-	{
-		while (*tmp && (ft_isdigit(*tmp) || ft_isspace(*tmp)))
-			tmp++;
-		if (*tmp == ';')
-			intens = ft_atoi_d(tmp + 1);
-		else
-			return (1); //think about terminate()
-		tmp++;
-		while (*tmp && (ft_isdigit(*tmp) || ft_isspace(*tmp) || *tmp == '.'))
-			tmp++;
-		if (*tmp == ';')
-			tmp++;
-		else
-			return (1); //think about terminate()
-		scene->light[light_type] = make_light(light_type, intens, parse_point(tmp));
-
-
-		return (0);
-	}
-	return (1);	
-}
-
-int move_pointer_point(char **p)
-{
-	char *tmp;
-
-	tmp = *p;
-	while (*tmp && (ft_isdigit(*tmp) || ft_isspace(*tmp) || *tmp == ',' || *tmp == '.'
-				|| *tmp == '-' || *tmp == '+'))
-			tmp++;
-	if (*tmp == ';')
-	{
-		tmp++;
-		*p = tmp;
-		return (0);
-	}
-	return (1);
-}
-
-int move_pointer_num(char **p)
-{
-	char *tmp;
-
-	tmp = *p;
-	while (*tmp && (ft_isdigit(*tmp) || ft_isspace(*tmp) || *tmp == '.'))
-			tmp++;
-	if (*tmp == ';')
-	{
-		tmp++;
-		*p = tmp;
-		return (0);
-	}
-	return (1);
-}
-
-int read_object(int type, char *buf, t_scene *scene, int i)
-{
-	char *tmp;
-	t_point line;
-
-	tmp = buf;
-	ft_bzero(&scene->obj[i], sizeof(scene->obj[i]));
-	scene->obj[i].type = type;
-	if (type == SPHERE)
-	{
-		scene->obj[i].c = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].r = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		scene->obj[i].color = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].specular = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		scene->obj[i].mirror = ft_atoi_d(tmp);
-	}
-	if (type == CYLINDER)
-	{
-		scene->obj[i].c = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].r = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		line = parse_point(tmp);
-		scene->obj[i].l = multi(1 / modul(line), line);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].color = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].specular = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		scene->obj[i].mirror = ft_atoi_d(tmp);
-	}
-	if (type == CONE)
-	{
-		scene->obj[i].c = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		line = parse_point(tmp);
-		scene->obj[i].l = multi(1 / modul(line), line);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].angle = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		scene->obj[i].color = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].specular = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		scene->obj[i].mirror = ft_atoi_d(tmp);		
-	}
-	if (type == PLANE)
-	{
-		scene->obj[i].c = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		line = parse_point(tmp);
-		scene->obj[i].l = multi(1 / modul(line), line);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].color = parse_point(tmp);
-		if (move_pointer_point(&tmp))
-			return (1);
-		scene->obj[i].specular = ft_atoi_d(tmp);
-		if (move_pointer_num(&tmp))
-			return (1);
-		scene->obj[i].mirror = ft_atoi_d(tmp);	
-	}
-	return (0);
-}
-
-
-void print_structure(t_scene *scene)
+void print_structure(t_scene *scene) //delete
 {
 	printf("bg_color: (%f, %f, %f)\n", scene->bg_color.x, scene->bg_color.y, scene->bg_color.z);
 	printf("o: (%f, %f, %f)\n", scene->o.x, scene->o.y, scene->o.z);
 	printf("angle: (%f, %f, %f)\n", scene->angle.x, scene->angle.y, scene->angle.z);
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < scene->light_quant; i++)
 	{
 		printf("light[%d]: type %d, intens %f, (%f, %f, %f)\n", i,scene->light[i].type, scene->light[i].intens,
 				scene->light[i].c.x, scene->light[i].c.y, scene->light[i].c.z);
 	}
-	for (int i = 0; i < OBJ_C; i++)
+	for (int i = 0; i < scene->obj_quant; i++)
 	{
 		printf("type %d, center (%.2f, %.2f, %.2f), r %f, color (%.2f, %.2f, %.2f), sp %.2f, mir %.2f\n\n",
 			scene->obj[i].type, scene->obj[i].c.x, scene->obj[i].c.y, scene->obj[i].c.z,
@@ -291,63 +45,83 @@ void print_structure(t_scene *scene)
 	}
 }
 
+static void	parse_line(int key, char *line, t_count *current, t_scene *scene)
+{
+	if (key == BG_COLOR)
+		parse_bg_color(line + 9, scene);
+	if (key == O_PARAM)
+		scene->o = parse_point(line + 2);
+	if (key == ANGLE)
+		scene->angle = parse_point(line + 6);
+	if (key == LIGHT)
+	{
+		if (parse_light(line + 6, scene, &current->light))
+			exit(1);
+	// 			terminate("Error: in light params\n", &lines->line, fd);
+	}
+	if (key == SPHERE || key == CYLINDER || key == CONE || key == PLANE)
+	{
+		if (parse_object(key, line, scene, &current->object))
+			exit(1);
+	}
+}
+
+static int	choose_parameter(char *line)
+{
+	int key;
+	
+	key = -1;
+	if (ft_strcmp_head(line, "bg_color:"))
+		key = BG_COLOR;
+	else if (ft_strcmp_head(line, "o:"))
+		key = O_PARAM;
+	else if (ft_strcmp_head(line, "angle:"))
+		key = ANGLE;
+	else if (ft_strcmp_head(line, "light:"))
+		key = LIGHT;
+ 	else if (ft_strcmp_head(line, "sphere:"))
+		key = SPHERE;
+	else if (ft_strcmp_head(line, "cylinder:"))
+		key = CYLINDER;
+	else if (ft_strcmp_head(line, "cone:"))
+		key = CONE;
+	else if (ft_strcmp_head(line, "plane:"))
+		key = PLANE;
+	return (key);
+}
+
 int		read_scene(char *filename, t_scene *scene)
 {
-	t_list *lines;
-	t_list *tmp;
+	t_lines	*lines;
+	t_lines	*tmp;
+	t_count current;
+	int		key;
 
 	scene->light_quant = 0;
 	scene->obj_quant = 0;
+	current.light = 0;
+	current.object = 0;
+	lines = NULL;
 	read_lines_from_file(&lines, filename, scene);
-	scene->light = (t_point *)ft_memalloc(sizeof(t_point) * scene->light_quant);
-	scene->obj = (t_object *)ft_memalloc(sizeof(t_object) * scene->obj_quant);
-	// tmp = lines;
-	// while (lines->line)
-	// {
-	// 	if (ft_strcmp_head(lines->line, "bg_color:"))
-	// 		scene->bg_color = parse_point(lines->line + 9);
-	// 	else if (ft_strcmp_head(lines->line, "o:"))
-	// 		scene->o = parse_point(lines->line + 2);
-	// 	else if (ft_strcmp_head(lines->line, "angle:"))
-	// 		scene->angle = parse_point(lines->line + 6);
-	// 	else if (ft_strcmp_head(lines->line, "light:"))
-	// 	{
-	// 		if (read_light_params(lines->line + 6, scene))
-	// 			terminate("Error: in light params\n", &lines->line, fd);		
-	// 	}
-	// 	else if (ft_strcmp_head(buf, "sphere:"))
-	// 	{
-	// 		if (read_object(SPHERE, buf + 7, scene, obj))
-	// 			terminate("Error: in sphere\n", &buf, fd);
-	// 		obj++;
-	// 	}
-	// 	else if (ft_strcmp_head(buf, "cylinder:"))
-	// 	{
-	// 		if (obj >= OBJ_C || read_object(CYLINDER, buf + 9, scene, obj))
-	// 			terminate("Error: in sphere\n", &buf, fd);
-	// 		obj++;
-	// 	}
-	// 	else if (ft_strcmp_head(buf, "cone:"))
-	// 	{
-	// 		if (obj >= OBJ_C || read_object(CONE, buf + 5, scene, obj))
-	// 			terminate("Error: in sphere\n", &buf, fd);
-	// 		obj++;
-	// 	}
-	// 	else if (ft_strcmp_head(buf, "plane:"))
-	// 	{
-	// 		if (obj >= OBJ_C || read_object(PLANE, buf + 6, scene, obj))
-	// 			terminate("Error: in sphere\n", &buf, fd);
-	// 		obj++;
-	// 	}
-	// 	else
-	// 		terminate("Error: check your scene parameters.\n", &buf, fd);		
-	// }
-	// close(fd);
-	// print_structure(scene);
-	// write(1, "ok\n", 3);
+	if (scene->light_quant == 0 || scene->obj_quant == 0)
+		ft_putstr("Warning: empty scene.\n");
+	else
+	{
+		scene->light = (t_light *)ft_memalloc(sizeof(t_light) * scene->light_quant);
+		scene->obj = (t_object *)ft_memalloc(sizeof(t_object) * scene->obj_quant);
+		if (!scene->light || !scene->obj)
+			terminate("Error: memory allocation failed.\n", &lines, scene);
+	}
+	tmp = lines;
+	while (tmp)
+	{
+		key = choose_parameter(tmp->line);
+		if (key < 0)
+			terminate("Error: wrong name of scene parameter.\n", &lines, scene);
+		parse_line(key, tmp->line, &current, scene);
+		tmp = tmp->next;		
+	}
+	delete_list(&lines);
+	print_structure(scene);
 	return (0);
-
 }
-
-
-

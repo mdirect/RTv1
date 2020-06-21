@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   read.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/21 12:41:49 by mdirect           #+#    #+#             */
-/*   Updated: 2020/06/21 19:04:44 by hdean            ###   ########.fr       */
+/*   Created: 2020/06/21 12:47:15 by hdean             #+#    #+#             */
+/*   Updated: 2020/06/21 18:06:28 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef READ_H
+# define READ_H
 
-int		main(int argc, char **argv)
+# define SPHERE 1
+# define CYLINDER 2
+# define CONE 3
+# define PLANE 4
+# define BG_COLOR 5
+# define O_PARAM 6
+# define ANGLE 7
+# define LIGHT 8
+
+typedef	struct	s_count
 {
-	t_param_window	p;
+	int		light;
+	int		object;
+}				t_count;
 
-	if (argc != 2)
-		return (ft_usage());
-	read_scene(argv[1], &p.scene);
-	create_windows(&p);
-	draw(&p);
-	push_control(&p);
-	mlx_loop(p.mlx);
-	free(p.scene.obj);
-	free(p.scene.light);
-	return (0);
-}
+#endif
