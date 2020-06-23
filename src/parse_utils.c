@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-static int	ft_fast_pow(int base, int pow)
+static int		ft_fast_pow(int base, int pow)
 {
 	int res;
 
@@ -27,7 +27,7 @@ static int	ft_fast_pow(int base, int pow)
 	return (res);
 }
 
-double parse_num(const char *str)
+double			parse_num(const char *str)
 {
 	int		first;
 	int		second;
@@ -57,8 +57,8 @@ double parse_num(const char *str)
 
 static double	parse_coordinate(char **p)
 {
-	double coord;
-	char *tmp;
+	double	coord;
+	char	*tmp;
 
 	tmp = *p;
 	coord = parse_num(tmp);
@@ -69,17 +69,18 @@ static double	parse_coordinate(char **p)
 		tmp++;
 	else
 	{
-		ft_putstr("Error: something wrong with the point.\n"); //think about free in case of error: how can handle, maybe some int value for check
+		ft_putstr("Error: something wrong with the point.\n");
+		//think about free in case of error: how can handle, maybe some int value for check
 		exit(1);
 	}
 	*p = tmp;
 	return (coord);
 }
 
-t_point parse_point(char *str)
+t_point			parse_point(char *str)
 {
-	char *tmp;
-	t_point point;
+	char	*tmp;
+	t_point	point;
 
 	ft_bzero(&point, sizeof(point));
 	tmp = str;
@@ -89,10 +90,10 @@ t_point parse_point(char *str)
 	point.y = parse_coordinate(&tmp);
 	printf("|%s\n", tmp);
 	point.z = parse_num(tmp);
-	return(point);
+	return (point);
 }
 
-void check_color_value(t_point *color)
+void			check_color_value(t_point *color)
 {
 	if (color->x < 0.0)
 		color->x = 0.0;

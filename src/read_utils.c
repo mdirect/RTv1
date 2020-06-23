@@ -31,7 +31,7 @@ int		ft_strcmp_head(const char *str, const char *head)
 int		ft_isspace(char ch)
 {
 	return (ch == ' ' || ch == '\f' || ch == '\n' || ch == '\r' ||
-                                                    ch == '\t' || ch == '\v');
+	ch == '\t' || ch == '\v');
 }
 
 int		ft_issign(char ch)

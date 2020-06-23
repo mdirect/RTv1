@@ -13,7 +13,7 @@
 #include "rt.h"
 #include "read.h"
 
-static int move_pointer(char **p, int point)
+static int		move_pointer(char **p, int point)
 {
 	char *tmp;
 
@@ -39,7 +39,7 @@ static int move_pointer(char **p, int point)
 	return (1);
 }
 
-int	parse_sphere(char *tmp, t_scene *scene, int *i)
+int				parse_sphere(char *tmp, t_scene *scene, int *i)
 {
 	scene->obj[*i].c = parse_point(tmp);
 	if (move_pointer(&tmp, 1))
@@ -59,10 +59,10 @@ int	parse_sphere(char *tmp, t_scene *scene, int *i)
 	return (0);
 }
 
-int	parse_cylinder(char *tmp, t_scene *scene, int *i)
+int				parse_cylinder(char *tmp, t_scene *scene, int *i)
 {
 	t_point line;
-	
+
 	scene->obj[*i].c = parse_point(tmp);
 	if (move_pointer(&tmp, 1))
 		return (1);
@@ -85,10 +85,10 @@ int	parse_cylinder(char *tmp, t_scene *scene, int *i)
 	return (0);
 }
 
-int parse_cone(char *tmp, t_scene *scene, int *i)
+int				parse_cone(char *tmp, t_scene *scene, int *i)
 {
 	t_point line;
-	
+
 	scene->obj[*i].c = parse_point(tmp);
 	if (move_pointer(&tmp, 1))
 		return (1);
@@ -108,13 +108,13 @@ int parse_cone(char *tmp, t_scene *scene, int *i)
 		return (1);
 	scene->obj[*i].mirror = parse_num(tmp);
 	*i += 1;
-	return (0);	
+	return (0);
 }
 
-int	parse_plane(char *tmp, t_scene *scene, int *i)
+int				parse_plane(char *tmp, t_scene *scene, int *i)
 {
 	t_point line;
-	
+
 	scene->obj[*i].c = parse_point(tmp);
 	if (move_pointer(&tmp, 1))
 		return (1);

@@ -17,9 +17,6 @@
 # define WIN_Y 800
 # define E 0.001
 # define DEPTH 3
-// # define OBJ_C 5
-// # define LIGHT_C 3
-# define THREADS 64
 
 # include "mlx.h"
 # include "libft.h"
@@ -41,7 +38,6 @@ typedef	struct			s_scope
 {
 	double				min;
 	double				max;
-	int					depth;
 }						t_scope;
 
 typedef struct			s_root
@@ -81,6 +77,7 @@ typedef struct			s_scene
 	t_light				*light;
 	int					light_quant;
 	int					obj_quant;
+	t_scope				scope;
 }						t_scene;
 
 typedef struct			s_param_window
@@ -140,11 +137,10 @@ void					normal_sphere(t_object *sph);
 void					normal_cylinder(t_object *cyl, t_point o, t_point d);
 void					normal_cone(t_object *cone, t_point o, t_point d);
 void					normal_plane(t_object *plane);
-int						closest(t_scene *s, t_point o, t_point d,
-						t_scope scope);
-double					intensive(t_scene *s, t_point v, int *i, t_scope scope);
-double					make_color(t_scene *s, t_point v, int i, t_scope scope);
-t_point					rt(t_scene *s, t_point o, t_point d, t_scope scope);
+int						closest(t_scene *s, t_point o, t_point d);
+double					intensive(t_scene *s, t_point v, int i, int j);
+double					make_color(t_scene *s, t_point v, int i);
+t_point					rt(t_scene *s, t_point o, t_point d, int depth);
 void					push_control(t_param_window *p);
 int						push_key(int key, t_param_window *p);
 int						x_close();
@@ -163,7 +159,8 @@ void					init_common_thread_args(t_thread_args
 */
 int						read_scene(char *filename, t_scene *scene);
 // static int	choose_parameter(char *line)
-// static void	parse_line(int key, char *line, t_count *current, t_scene *scene)
+// static void	parse_line(int key, char *line, t_count *current,
+// 				t_scene *scene)
 // int terminate(char *error, t_list **lines, t_scene *scene)
 
 /*
@@ -175,8 +172,7 @@ void					read_lines_from_file(t_lines **lines, char *filename,
 // static t_list	*new_line(t_list **list, char *line)
 // static int		check_line(char *buf)
 // static void		count_objects_and_lights(t_scene *scene, char *buf)
-						
-						
+
 /*
 ** read_utils.c - 4
 */
@@ -204,7 +200,7 @@ int						parse_object(int type, char *buf, t_scene *scene,
 						int *current_object);
 // static t_light		make_light(int type, double intens, t_point c)
 
-/* 
+/*
 ** parse_object.c - 5
 */
 int						parse_sphere(char *tmp, t_scene *scene, int *i);
@@ -212,6 +208,5 @@ int						parse_cylinder(char *tmp, t_scene *scene, int *i);
 int						parse_cone(char *tmp, t_scene *scene, int *i);
 int						parse_plane(char *tmp, t_scene *scene, int *i);
 // static int move_pointer(char **p, int point)
-
 
 #endif

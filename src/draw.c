@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-int		closest(t_scene *s, t_point o, t_point d, t_scope scope)
+int		closest(t_scene *s, t_point o, t_point d)
 {
 	int		i;
 	double	cls_t;
@@ -24,14 +24,14 @@ int		closest(t_scene *s, t_point o, t_point d, t_scope scope)
 	while (++i < s->obj_quant)
 	{
 		hit_figures(&s->obj[i], o, d);
-		if (s->obj[i].root.t1 < cls_t && scope.min < s->obj[i].root.t1 &&
-			s->obj[i].root.t1 < scope.max)
+		if (s->obj[i].root.t1 < cls_t && s->scope.min < s->obj[i].root.t1 &&
+		s->obj[i].root.t1 < s->scope.max)
 		{
 			cls_t = s->obj[i].root.t1;
 			cls_sph = i;
 		}
-		if (s->obj[i].root.t2 < cls_t && scope.min < s->obj[i].root.t2 &&
-			s->obj[i].root.t2 < scope.max)
+		if (s->obj[i].root.t2 < cls_t && s->scope.min < s->obj[i].root.t2 &&
+		s->obj[i].root.t2 < s->scope.max)
 		{
 			cls_t = s->obj[i].root.t2;
 			s->obj[i].root.t1 = s->obj[i].root.t2;
@@ -41,95 +41,90 @@ int		closest(t_scene *s, t_point o, t_point d, t_scope scope)
 	return (cls_sph);
 }
 
-double	intensive(t_scene *s, t_point v, int *i, t_scope scope)
+double	intensive(t_scene *s, t_point v, int i, int j)
 {
 	double	intens;
 	double	tmp;
 	t_point	vec;
 
 	intens = 0;
-	vec = s->light[i[1]].type == 1 ? vector(s->obj[*i].p, s->light[i[1]].c)
-								: s->light[i[1]].c;
-	scope.max = s->light[i[1]].type == 1 ? 1.0 : INFINITY;
-	if (closest(s, s->obj[*i].p, vec, scope) != -1)
+	vec = s->light[j].type == 1 ? vector(s->obj[i].p, s->light[j].c)
+			: s->light[j].c;
+	s->scope.max = s->light[j].type == 1 ? 1.0 : INFINITY;
+	if (closest(s, s->obj[i].p, vec) != -1)
 		return (intens);
-	if ((tmp = scalar(s->obj[*i].n, vec)) > 0)
-		intens += s->light[i[1]].intens * tmp / (modul(s->obj[*i].n)
+	if ((tmp = scalar(s->obj[i].n, vec)) > 0)
+		intens += s->light[j].intens * tmp / (modul(s->obj[i].n)
 				* modul(vec));
-	if (s->obj[*i].specular != -1)
+	if (s->obj[i].specular != -1)
 	{
 		vec = vector(vec, multi(2.0
-		* scalar(vec, s->obj[*i].n), s->obj[*i].n));
+		* scalar(vec, s->obj[i].n), s->obj[i].n));
 		if ((tmp = scalar(vec, v)) > 0)
-			intens += s->light[i[1]].intens * pow(tmp /
-					(modul(vec) * modul(v)), s->obj[*i].specular);
+			intens += s->light[j].intens * pow(tmp /
+					(modul(vec) * modul(v)), s->obj[i].specular);
 	}
 	return (intens);
 }
 
-double	make_color(t_scene *s, t_point v, int i, t_scope scope)
+double	make_color(t_scene *s, t_point v, int i)
 {
 	double	intens;
-	int		iters[2];
+	int		j;
 
 	intens = 0;
-	iters[0] = i;
-	iters[1] = -1;
-	while (++iters[1] < s->light_quant)
-		if (s->light[iters[1]].type == 0)
-			intens += s->light[iters[1]].intens;
+	j = -1;
+	while (++j < s->light_quant)
+		if (s->light[j].type == 0)
+			intens += s->light[j].intens;
 		else
-			intens += intensive(s, v, iters, scope);
+			intens += intensive(s, v, i, j);
 	return (intens);
 }
 
-t_point	rt(t_scene *s, t_point o, t_point d, t_scope scope)
+t_point	rt(t_scene *s, t_point o, t_point d, int depth)
 {
 	int			c_s;
 	t_point		color;
 	t_point		r_c;
 	t_point		r_r;
 
-	if ((c_s = closest(s, o, d, scope)) == -1)
+	if ((c_s = closest(s, o, d)) == -1)
 		return (s->bg_color);
 	s->obj[c_s].p = summa(o, multi(s->obj[c_s].root.t1, d));
 	normal(&s->obj[c_s], o, d);
-	color = multi(make_color(s, multi(-1, d), c_s, scope), s->obj[c_s].color);
-	if (s->obj[c_s].mirror <= 0 || scope.depth <= 0)
+	color = multi(make_color(s, multi(-1, d), c_s), s->obj[c_s].color);
+	if (s->obj[c_s].mirror <= 0 || depth <= 0)
 		return (color);
 	r_r = vector(multi(-1, d), multi(2 * scalar(multi(-1, d), s->obj[c_s].n),
 			s->obj[c_s].n));
-	scope.min = E;
-	scope.max = INFINITY;
-	scope.depth--;
-	r_c = rt(s, s->obj[c_s].p, r_r, scope);
+	s->scope.min = E;
+	s->scope.max = INFINITY;
+	r_c = rt(s, s->obj[c_s].p, r_r, depth - 1);
 	return (summa(multi(1 - s->obj[c_s].mirror, color),
 			multi(s->obj[c_s].mirror, r_c)));
 }
 
 void	draw(t_param_window *p)
 {
-	t_thread_args	args[THREADS + 1];
-	pthread_t		t[THREADS];
-	bool			thread_status[THREADS];
-	size_t			cur_trd;
+	int		i;
+	int		j;
+	double	x;
+	double	y;
 
-	init_common_thread_args(args, thread_status, p);
-	args[THREADS].i = -1;
-	args[THREADS].j = 0;
-	while (++args[THREADS].i < THREADS)
+	j = -1;
+	while (++j < WIN_Y)
 	{
-		cur_trd = (args[THREADS].j * WIN_X + args[THREADS].i) % THREADS;
-		if (thread_status[cur_trd] == false)
-			thread_status[cur_trd] = true;
-		else
-			pthread_join(t[cur_trd], NULL);
-		args[cur_trd] = init_thread_args(args
-				[THREADS].i, args[THREADS].j, p);
-		pthread_create(&t[cur_trd], NULL, &thread_func, &args[cur_trd]);
+		i = -1;
+		while (++i < WIN_X)
+		{
+			x = (-WIN_X / 2 + (double)i) * (1.0 / WIN_X);
+			y = (WIN_Y / 2 - (double)j) * (1.0 / WIN_Y);
+			p->scene.scope.min = E;
+			p->scene.scope.max = INFINITY;
+			p->img_data[j * WIN_X + i] = check_color(rt(&p->scene, p->scene.o,
+					rotate_matrix(&p->scene, (t_point) {x, y, 1}), DEPTH));
+		}
 	}
-	args[THREADS].i = -1;
-	while (++args[THREADS].i < THREADS)
-		pthread_join(t[args[THREADS].i], NULL);
 	mlx_put_image_to_window(p->mlx, p->window, p->img, 0, 0);
 }

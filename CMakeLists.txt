@@ -89,9 +89,9 @@ add_compile_options (-Wall -Werror -Wextra)
 
 add_executable(RTv1 inc/rt.h
         src/main.c src/keyboard_control.c
-        src/help_functions.c src/draw.c src/figures.c src/vectors.c src/hit_figures.c
-        src/rotate.c src/normal.c src/threads.c
-        scene/scene1.c scene/scene2.c scene/scene3.c scene/scene4.c
-        scene/scene5.c)
+        src/help_functions.c src/draw.c src/vectors.c src/hit_figures.c
+        src/rotate.c src/normal.c
+        src/parse_object.c src/parse_params.c src/parse_scene.c src/parse_utils.c
+        src/read_utils.c src/read.c)
 
     target_link_libraries(RTv1 libmlx libft "-framework OpenGL" "-framework AppKit" ${PTHREAD_LIBRARY})

@@ -13,8 +13,7 @@
 #include "rt.h"
 #include "read.h"
 
-
-int terminate(char *error, t_lines **lines, t_scene *scene)
+int			terminate(char *error, t_lines **lines, t_scene *scene)
 {
 	if (*lines)
 		delete_list(lines);
@@ -26,7 +25,7 @@ int terminate(char *error, t_lines **lines, t_scene *scene)
 	exit(1);
 }
 
-void print_structure(t_scene *scene) //delete
+void		print_structure(t_scene *scene) //delete
 {
 	printf("bg_color: (%f, %f, %f)\n", scene->bg_color.x, scene->bg_color.y, scene->bg_color.z);
 	printf("o: (%f, %f, %f)\n", scene->o.x, scene->o.y, scene->o.z);
@@ -69,7 +68,7 @@ static void	parse_line(int key, char *line, t_count *current, t_scene *scene)
 static int	choose_parameter(char *line)
 {
 	int key;
-	
+
 	key = -1;
 	if (ft_strcmp_head(line, "bg_color:"))
 		key = BG_COLOR;
@@ -79,7 +78,7 @@ static int	choose_parameter(char *line)
 		key = ANGLE;
 	else if (ft_strcmp_head(line, "light:"))
 		key = LIGHT;
- 	else if (ft_strcmp_head(line, "sphere:"))
+	else if (ft_strcmp_head(line, "sphere:"))
 		key = SPHERE;
 	else if (ft_strcmp_head(line, "cylinder:"))
 		key = CYLINDER;
@@ -90,7 +89,7 @@ static int	choose_parameter(char *line)
 	return (key);
 }
 
-int		read_scene(char *filename, t_scene *scene)
+int			read_scene(char *filename, t_scene *scene)
 {
 	t_lines	*lines;
 	t_lines	*tmp;
