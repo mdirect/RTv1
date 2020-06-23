@@ -6,52 +6,57 @@
 /*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/21 14:20:14 by hdean             #+#    #+#             */
-/*   Updated: 2020/06/21 19:24:50 by hdean            ###   ########.fr       */
+/*   Updated: 2020/06/23 17:25:45 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static int	ft_fast_pow(int base, int pow)
-{
-	int res;
+// static int	ft_fast_pow(int base, int pow)
+// {
+// 	int res;
 
-	res = 1;
-	while (pow)
-	{
-		if (pow & 1)
-			res *= base;
-		base *= base;
-		pow >>= 1;
-	}
-	return (res);
-}
+// 	res = 1;
+// 	while (pow)
+// 	{
+// 		if (pow & 1)
+// 			res *= base;
+// 		base *= base;
+// 		pow >>= 1;
+// 	}
+// 	return (res);
+// }
 
 double parse_num(const char *str)
 {
-	int		first;
+	double	first;
 	int		second;
 	double	result;
 	char	*tmp;
 	int		k;
 
 	tmp = (char *)str;
-	first = ft_atoi(tmp);
-	while (*tmp && *tmp != '.' && *tmp != ',')
+	first = (double)ft_atoi(tmp);
+	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || ft_issign(*tmp)))
 		tmp++;
-	if (*tmp == ',')
-		return ((double)first);
+	if (*tmp == '.')
+		tmp++;
 	else
-		tmp++;
-	second = ft_atoi(tmp);
+		return (first);
+	second = (first < 0) ? (-1) * ft_atoi(tmp) : ft_atoi(tmp);
+	printf("second %d ", second);
 	k = 0;
 	while (*tmp && ft_isdigit(*tmp))
 	{
 		k++;
 		tmp++;
 	}
-	result = (second == 0) ? (double)first : (double)(first *
-							ft_fast_pow(10, k) + second) / ft_fast_pow(10, k);
+	printf(" k %d ", k);
+	printf("pow %f ", pow(10,k));
+	double d = (double)(first * pow(10, k) + second);
+	printf("d %f ", d);
+	result = (second == 0) ? first : (first * pow(10, k) + second) / pow(10, k);
+	printf("result %f\n", result);
 	return (result);
 }
 
@@ -62,6 +67,7 @@ static double	parse_coordinate(char **p)
 
 	tmp = *p;
 	coord = parse_num(tmp);
+	printf("str |%s| coord %f\n", tmp, coord);
 	while (*tmp && (ft_isspace(*tmp) || ft_isdigit(*tmp) || *tmp == '.' ||
 				ft_issign(*tmp)))
 		tmp++;
@@ -87,7 +93,6 @@ t_point parse_point(char *str)
 		tmp++;
 	point.x = parse_coordinate(&tmp);
 	point.y = parse_coordinate(&tmp);
-	printf("|%s\n", tmp);
 	point.z = parse_num(tmp);
 	return(point);
 }

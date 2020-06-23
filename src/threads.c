@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: estel <estel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/08 14:04:00 by estel             #+#    #+#             */
-/*   Updated: 2020/06/08 14:04:00 by estel            ###   ########.fr       */
+/*   Updated: 2020/06/22 00:42:46 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void			*thread_func(void *arg)
 
 	p = arg;
 	p->vec.z = 1;
-	while (p->j <= WIN_Y && p->i <= WIN_X)
+	while (p->j < WIN_Y && p->i < WIN_X)
 	{
 		p->vec.x = (-WIN_X / 2 + (double)p->i) * (1.0 / WIN_X);
 		p->vec.y = (WIN_Y / 2 - (double)p->j) * (1.0 / WIN_Y);

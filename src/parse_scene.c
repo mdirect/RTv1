@@ -6,7 +6,7 @@
 /*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/21 12:18:15 by hdean             #+#    #+#             */
-/*   Updated: 2020/06/21 19:21:06 by hdean            ###   ########.fr       */
+/*   Updated: 2020/06/23 10:14:05 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		read_scene(char *filename, t_scene *scene)
 	current.object = 0;
 	lines = NULL;
 	read_lines_from_file(&lines, filename, scene);
+	printf("%d, %d\n", scene->light_quant, scene->obj_quant);
 	if (scene->light_quant == 0 || scene->obj_quant == 0)
 		ft_putstr("Warning: empty scene.\n");
 	else
