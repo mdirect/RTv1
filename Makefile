@@ -38,7 +38,6 @@ SRCS_LIST 	=	main.c					keyboard_control.c  \
 		  		help_functions.c 		draw.c \
         		vectors.c 				hit_figures.c \
 				rotate.c         		normal.c \
-				threads.c \
 		  		parse_scene.c			read.c \
 				read_utils.c			parse_utils.c \
 				parse_object.c			parse_params.c

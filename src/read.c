@@ -35,9 +35,9 @@ static int		check_fd(int fd, char *filename)
 static t_lines	*new_line(t_lines **list, char *line)
 {
 	t_lines *new;
-
+	
 	if ((new = (t_lines *)ft_memalloc(sizeof(t_lines))) &&
-	(new->line = ft_strdup(line)))
+												(new->line = ft_strdup(line)))
 	{
 		new->next = NULL;
 		if (!*list)
@@ -61,7 +61,7 @@ static int		check_line(char *buf)
 		if (!ft_isspace(*tmp) && !ft_isalnum(*tmp) && !ft_issign(*tmp) &&
 		*tmp != '.' && *tmp != ',' && *tmp != ';' && *tmp != '_' && *tmp != ':')
 			return (1);
-		tmp++;
+		tmp++;	
 	}
 	return (0);
 }

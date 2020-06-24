@@ -6,14 +6,15 @@
 /*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/21 12:18:15 by hdean             #+#    #+#             */
-/*   Updated: 2020/06/21 19:21:06 by hdean            ###   ########.fr       */
+/*   Updated: 2020/06/24 18:54:12 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "read.h"
 
-int			terminate(char *error, t_lines **lines, t_scene *scene)
+
+int terminate(char *error, t_lines **lines, t_scene *scene)
 {
 	if (*lines)
 		delete_list(lines);
@@ -25,7 +26,7 @@ int			terminate(char *error, t_lines **lines, t_scene *scene)
 	exit(1);
 }
 
-void		print_structure(t_scene *scene) //delete
+void print_structure(t_scene *scene) //delete
 {
 	printf("bg_color: (%f, %f, %f)\n", scene->bg_color.x, scene->bg_color.y, scene->bg_color.z);
 	printf("o: (%f, %f, %f)\n", scene->o.x, scene->o.y, scene->o.z);
@@ -68,7 +69,7 @@ static void	parse_line(int key, char *line, t_count *current, t_scene *scene)
 static int	choose_parameter(char *line)
 {
 	int key;
-
+	
 	key = -1;
 	if (ft_strcmp_head(line, "bg_color:"))
 		key = BG_COLOR;
@@ -78,7 +79,7 @@ static int	choose_parameter(char *line)
 		key = ANGLE;
 	else if (ft_strcmp_head(line, "light:"))
 		key = LIGHT;
-	else if (ft_strcmp_head(line, "sphere:"))
+ 	else if (ft_strcmp_head(line, "sphere:"))
 		key = SPHERE;
 	else if (ft_strcmp_head(line, "cylinder:"))
 		key = CYLINDER;
@@ -89,7 +90,22 @@ static int	choose_parameter(char *line)
 	return (key);
 }
 
-int			read_scene(char *filename, t_scene *scene)
+void check_scene(t_scene *scene,t_lines **lines, char *filename)
+{
+	read_lines_from_file(lines, filename, scene);
+	if (scene->light_quant == 0 || scene->obj_quant == 0)
+	{
+		ft_putstr("Warning: empty scene.\n");
+		if (scene->light_quant == 0)
+			scene->light_quant++;
+		if (scene->obj_quant == 0)
+			scene->obj_quant++;
+	}
+	scene->light = (t_light *)ft_memalloc(sizeof(t_light) * scene->light_quant);
+	scene->obj = (t_object *)ft_memalloc(sizeof(t_object) * scene->obj_quant);
+}
+
+int		read_scene(char *filename, t_scene *scene)
 {
 	t_lines	*lines;
 	t_lines	*tmp;
@@ -101,16 +117,9 @@ int			read_scene(char *filename, t_scene *scene)
 	current.light = 0;
 	current.object = 0;
 	lines = NULL;
-	read_lines_from_file(&lines, filename, scene);
-	if (scene->light_quant == 0 || scene->obj_quant == 0)
-		ft_putstr("Warning: empty scene.\n");
-	else
-	{
-		scene->light = (t_light *)ft_memalloc(sizeof(t_light) * scene->light_quant);
-		scene->obj = (t_object *)ft_memalloc(sizeof(t_object) * scene->obj_quant);
-		if (!scene->light || !scene->obj)
-			terminate("Error: memory allocation failed.\n", &lines, scene);
-	}
+	check_scene(scene, &lines, filename);	
+	if (!scene->light || !scene->obj)
+		terminate("Error: memory allocation failed.\n", &lines, scene);
 	tmp = lines;
 	while (tmp)
 	{

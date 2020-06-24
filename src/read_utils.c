@@ -6,7 +6,7 @@
 /*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/20 19:04:02 by hdean             #+#    #+#             */
-/*   Updated: 2020/06/21 19:00:47 by hdean            ###   ########.fr       */
+/*   Updated: 2020/06/24 18:28:34 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_strcmp_head(const char *str, const char *head)
 	i = 0;
 	while (head[i])
 	{
-		if (ft_tolower(head[i]) != str[i])
+		if (head[i] != str[i])
 			return (0);
 		i++;
 	}
@@ -31,7 +31,7 @@ int		ft_strcmp_head(const char *str, const char *head)
 int		ft_isspace(char ch)
 {
 	return (ch == ' ' || ch == '\f' || ch == '\n' || ch == '\r' ||
-	ch == '\t' || ch == '\v');
+                                                    ch == '\t' || ch == '\v');
 }
 
 int		ft_issign(char ch)
