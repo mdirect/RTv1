@@ -6,7 +6,7 @@
 #    By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/22 15:09:25 by mdirect           #+#    #+#              #
-#    Updated: 2020/06/21 17:55:58 by hdean            ###   ########.fr        #
+#    Updated: 2020/06/24 20:37:51 by hdean            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME 		= RTv1
 UNAME_OS 	= $(shell uname -s)
 
 SRC_DIR		= ./src/
-#BUILD_DIR	= ./build/
+BUILD_DIR	= ./build/
 
 LIBSINC 	= -L./libft/ -L./minilibx_macos/
 LIBFTPATH 	= ./libft/
@@ -43,8 +43,8 @@ SRCS_LIST 	=	main.c					keyboard_control.c  \
 				parse_object.c			parse_params.c
 
 SRCS		= $(addprefix $(SRC_DIR), $(SRCS_LIST))
-OBJS		= $(SRCS:.c=.o)
-#OBJS		= $(addprefix $(BUILD_DIR, $(SRCS:.c=.o))
+#OBJS		= $(SRCS:.c=.o)
+OBJS		= $(addprefix $(BUILD_DIR), $(SRCS_LIST:.c=.o))
 
 CC 			= gcc
 
@@ -54,20 +54,25 @@ FLAGS 		= -Wall -Wextra -Werror
 
 all: $(NAME)
 
-%.o: %.c $(HEADERS)
-	$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
+$(OBJS): $(BUILD_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(FLAGS) -MD $(INCLUDES) -o $@ -c $<
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFTPATH)
 	@$(MAKE) -C $(MINILIBXPATH)
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIBSINC) $(LIBS)
 
+include $(wildcard $(BUILD_DIR)*.d)
+
 clean:
 	$(MAKE) fclean -C $(LIBFTPATH)
 	$(MAKE) clean -C $(MINILIBXPATH)
 	/bin/rm -f $(OBJS)
+	@/bin/rm -f $(BUILD_DIR)*
 
 fclean: clean
 	@/bin/rm -f $(NAME)
+	@/bin/rm -rf $(BUILD_DIR)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 12:43:06 by mdirect           #+#    #+#             */
-/*   Updated: 2020/06/21 18:07:05 by hdean            ###   ########.fr       */
+/*   Updated: 2020/06/24 20:18:13 by hdean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,60 +153,24 @@ t_thread_args			init_thread_args(int i, int j, t_param_window *p);
 void					*thread_func(void *arg);
 void					init_common_thread_args(t_thread_args
 						*args, bool *thread_status, t_param_window *p);
-
-/*
-** parse_scene.c - 4
-*/
 int						read_scene(char *filename, t_scene *scene);
-// static int	choose_parameter(char *line)
-// static void	parse_line(int key, char *line, t_count *current,
-// 				t_scene *scene)
-// int terminate(char *error, t_list **lines, t_scene *scene)
-
-/*
-** read.c - 5
-*/
 void					read_lines_from_file(t_lines **lines, char *filename,
 						t_scene *scene);
-// static int		check_fd(int fd, char *filename)
-// static t_list	*new_line(t_list **list, char *line)
-// static int		check_line(char *buf)
-// static void		count_objects_and_lights(t_scene *scene, char *buf)
-
-/*
-** read_utils.c - 4
-*/
 int						ft_isspace(char ch);
 int						ft_strcmp_head(const char *str, const char *head);
 int						ft_issign(char ch);
 void					delete_list(t_lines **list);
-
-/*
-** parse_utils.c - 5
-*/
 t_point					parse_point(char *str);
 double					parse_num(const char *str);
 void					check_color_value(t_point *color);
-// static double	parse_coordinate(char **p)
-// static int	ft_fast_pow(int base, int pow)
-
-/*
-** parse_params.c - 4
-*/
 void					parse_bg_color(char *line, t_scene *scene);
 int						parse_light(char *line, t_scene *scene,
 						int *current_light);
 int						parse_object(int type, char *buf, t_scene *scene,
 						int *current_object);
-// static t_light		make_light(int type, double intens, t_point c)
-
-/*
-** parse_object.c - 5
-*/
 int						parse_sphere(char *tmp, t_scene *scene, int *i);
 int						parse_cylinder(char *tmp, t_scene *scene, int *i);
 int						parse_cone(char *tmp, t_scene *scene, int *i);
 int						parse_plane(char *tmp, t_scene *scene, int *i);
-// static int move_pointer(char **p, int point)
 
 #endif
