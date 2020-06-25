@@ -6,7 +6,7 @@
 #    By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/22 15:09:25 by mdirect           #+#    #+#              #
-#    Updated: 2020/06/24 20:37:51 by hdean            ###   ########.fr        #
+#    Updated: 2020/06/25 10:21:55 by estel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ LIBFTPATH 	= ./libft/
 MINILIBXPATH 	= ./minilibx_macos/
 LIBS 		= -lft -lmlx
 LIBSNAME 	= libft.a libmlx.a
-
 INCLUDES 	= -I./libft/ -I./minilibx_macos/ -I./inc/
 
 ifeq ($(UNAME_OS), Linux)
