@@ -6,7 +6,7 @@
 #    By: hdean <hdean@student.21-school.ru>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/22 15:09:25 by mdirect           #+#    #+#              #
-#    Updated: 2020/06/25 10:21:55 by estel            ###   ########.fr        #
+#    Updated: 2020/06/25 10:53:56 by estel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ BUILD_DIR	= ./build/
 LIBSINC 	= -L./libft/ -L./minilibx_macos/
 LIBFTPATH 	= ./libft/
 MINILIBXPATH 	= ./minilibx_macos/
-LIBS 		= -lft -lmlx
+LIBS 		= -lft -lmlx -framework OpenGL -framework AppKit
 LIBSNAME 	= libft.a libmlx.a
 INCLUDES 	= -I./libft/ -I./minilibx_macos/ -I./inc/
 
