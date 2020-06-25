@@ -49,7 +49,7 @@ void		quadr_eq_solve(double a, double b, double c, t_root *t)
 
 int			ft_usage(void)
 {
-	ft_putstr("usage: ./rt input_rt\n");
+	ft_putstr("usage: ./RTv1 input_rtv1\n");
 	return (0);
 }
 
