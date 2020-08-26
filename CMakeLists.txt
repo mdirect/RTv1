@@ -3,11 +3,11 @@ project(RTv1 C)
 
 set(CMAKE_C_STANDARD 11)
 
-include_directories(.)
-include_directories(minilibx_macos libft)
+find_library(PTHREAD_LIBRARY pthread)
 
-find_package(OpenCL REQUIRED)
+include_directories(libft .)
 
+include_directories(minilibx_macos inc)
 add_library(libmlx STATIC
         minilibx_macos/mlx_shaders.c
         minilibx_macos/mlx_new_window.m
@@ -15,6 +15,7 @@ add_library(libmlx STATIC
         minilibx_macos/mlx_new_image.m
         minilibx_macos/mlx_xpm.c
         minilibx_macos/mlx_int_str_to_wordtab.c)
+
 
 add_library(libft STATIC
         libft/ft_atoi.c
@@ -84,13 +85,13 @@ add_library(libft STATIC
         libft/get_next_line.c
         libft/libft.h)
 
-add_compile_options (-Wall -Werror -Wextra -g)
+add_compile_options (-Wall -Werror -Wextra)
 
-add_executable(RTv1 rt.h scene/scene.h
-        main.c keyboard_control.c
-        help_functions.c draw.c figures.c vectors.c hit_figures.c
-        rotate.c normal.c
-        scene/scene1.c scene/scene2.c scene/scene3.c scene/scene4.c
-        scene/scene5.c)
+add_executable(RTv1 inc/rt.h
+        src/main.c src/keyboard_control.c
+        src/help_functions.c src/draw.c src/vectors.c src/hit_figures.c
+        src/rotate.c src/normal.c
+        src/parse_object.c src/parse_params.c src/parse_scene.c src/parse_utils.c
+        src/read_utils.c src/read.c)
 
-target_link_libraries(RTv1 libmlx libft "-framework OpenGL" "-framework AppKit" OpenCL::OpenCL)
+    target_link_libraries(RTv1 libmlx libft "-framework OpenGL" "-framework AppKit" ${PTHREAD_LIBRARY})
